@@ -144,3 +144,26 @@
         color: #70789a;
     }
 </style>
+
+<script>
+function setEMF(level) {
+    // Désactive toutes les LEDs
+    for (let i = 1; i <= 5; i++) {
+        document.getElementById("led" + i).classList.remove("active");
+    }
+
+    // Active les LEDs jusqu'au niveau choisi
+    for (let i = 1; i <= level; i++) {
+        document.getElementById("led" + i).classList.add("active");
+    }
+
+    // Met à jour l'affichage du niveau EMF
+    document.getElementById("emf-value").textContent = level;
+
+    // Joue le son correspondant
+    const sound = document.getElementById("sound" + level);
+    sound.currentTime = 0;
+    sound.play();
+}
+</script>
+
