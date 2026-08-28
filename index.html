@@ -5,7 +5,7 @@
 <title>EMF Phasmo IRL</title>
 <style>
     body {
-        background: #05060a;
+        background: #0a0a0d;
         color: white;
         font-family: Arial, sans-serif;
         display: flex;
@@ -22,13 +22,6 @@
         flex-direction: column;
         gap: 10px;
         box-shadow: 0 0 15px #000;
-    }
-
-    #controls h2 {
-        margin-top: 0;
-        margin-bottom: 10px;
-        font-size: 20px;
-        text-align: center;
     }
 
     button {
@@ -55,37 +48,38 @@
         align-items: center;
     }
 
-    /* Boîtier EMF */
+    /* Boîtier EMF réaliste */
     .emf-body {
-        width: 220px;
-        height: 420px;
+        width: 240px;
+        height: 480px;
         background: #1b1f2b;
-        border-radius: 25px;
+        border-radius: 30px;
         position: relative;
         box-shadow: 0 0 25px rgba(0,0,0,0.8);
-        border: 2px solid #30364a;
+        border: 3px solid #30364a;
+        transform: rotate(-2deg);
     }
 
-    /* Tête EMF (LEDs en arc) */
+    /* Tête inclinée comme le vrai EMF */
     .emf-head {
         position: absolute;
-        top: 25px;
+        top: 20px;
         left: 50%;
-        transform: translateX(-50%);
-        width: 170px;
-        height: 95px;
-        background: #11141f;
-        border-radius: 55px;
-        border: 2px solid #2b3144;
+        transform: translateX(-50%) rotate(-6deg);
+        width: 180px;
+        height: 110px;
+        background: #0f121b;
+        border-radius: 60px;
+        border: 3px solid #2b3144;
         display: flex;
         justify-content: space-around;
         align-items: flex-end;
-        padding: 10px 15px 15px 15px;
+        padding-bottom: 20px;
     }
 
     .emf-led {
-        width: 26px;
-        height: 55px;
+        width: 28px;
+        height: 60px;
         border-radius: 14px;
         background: #333;
         opacity: 0.15;
@@ -98,20 +92,20 @@
         box-shadow: 0 0 14px currentColor;
     }
 
-    #led1 { background: #00c853; color: #00c853; }   /* vert */
-    #led2 { background: #00b0ff; color: #00b0ff; }   /* bleu */
-    #led3 { background: #ffeb3b; color: #ffeb3b; }   /* jaune */
-    #led4 { background: #ff9800; color: #ff9800; }   /* orange */
-    #led5 { background: #ff1744; color: #ff1744; }   /* rouge */
+    #led1 { background: #00c853; color: #00c853; }
+    #led2 { background: #00b0ff; color: #00b0ff; }
+    #led3 { background: #ffeb3b; color: #ffeb3b; }
+    #led4 { background: #ff9800; color: #ff9800; }
+    #led5 { background: #ff1744; color: #ff1744; }
 
-    /* Écran / texte EMF */
+    /* Écran */
     .emf-screen {
         position: absolute;
-        top: 140px;
+        top: 160px;
         left: 50%;
         transform: translateX(-50%);
-        width: 160px;
-        height: 70px;
+        width: 170px;
+        height: 80px;
         background: #10131d;
         border-radius: 12px;
         border: 2px solid #262c3f;
@@ -133,23 +127,23 @@
         color: #36f9a5;
     }
 
-    /* Bouton physique */
+    /* Bouton rond */
     .emf-button {
         position: absolute;
-        bottom: 60px;
+        bottom: 80px;
         left: 50%;
         transform: translateX(-50%);
-        width: 60px;
-        height: 60px;
+        width: 70px;
+        height: 70px;
         border-radius: 50%;
         background: radial-gradient(circle at 30% 30%, #3b425c, #151822);
-        border: 2px solid #3c4258;
+        border: 3px solid #3c4258;
         box-shadow: 0 0 12px rgba(0,0,0,0.8);
     }
 
     .emf-bottom-text {
         position: absolute;
-        bottom: 20px;
+        bottom: 30px;
         width: 100%;
         text-align: center;
         font-size: 12px;
@@ -160,7 +154,6 @@
 <body>
 
 <div id="controls">
-    <h2>Contrôle EMF</h2>
     <button onclick="setEMF(1)">EMF 1</button>
     <button onclick="setEMF(2)">EMF 2</button>
     <button onclick="setEMF(3)">EMF 3</button>
@@ -186,12 +179,12 @@
         <div class="emf-button"></div>
 
         <div class="emf-bottom-text">
-            Phasmo IRL • EMF Reader
+            EMF Reader • Phasmo IRL
         </div>
     </div>
 </div>
 
-<!-- Sons EMF -->
+<!-- Sons -->
 <audio id="sound1" src="https://assets.mixkit.co/sfx/preview/mixkit-small-click-1123.mp3"></audio>
 <audio id="sound2" src="https://assets.mixkit.co/sfx/preview/mixkit-soft-pop-2350.mp3"></audio>
 <audio id="sound3" src="https://assets.mixkit.co/sfx/preview/mixkit-interface-click-1125.mp3"></audio>
@@ -200,7 +193,6 @@
 
 <script>
 function setEMF(level) {
-    // LEDs
     for (let i = 1; i <= 5; i++) {
         document.getElementById("led" + i).classList.remove("active");
     }
@@ -208,10 +200,8 @@ function setEMF(level) {
         document.getElementById("led" + i).classList.add("active");
     }
 
-    // Valeur affichée
     document.getElementById("emf-value").textContent = level;
 
-    // Son
     const sound = document.getElementById("sound" + level);
     sound.currentTime = 0;
     sound.play();
