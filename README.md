@@ -1,2 +1,2 @@
 # Phasmo-IRL
-VO.5 du site
+VO.6 du site
