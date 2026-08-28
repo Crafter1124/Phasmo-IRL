@@ -48,7 +48,7 @@
         align-items: center;
     }
 
-    /* Boîtier EMF réaliste */
+    /* Boîtier EMF droit */
     .emf-body {
         width: 240px;
         height: 480px;
@@ -57,15 +57,14 @@
         position: relative;
         box-shadow: 0 0 25px rgba(0,0,0,0.8);
         border: 3px solid #30364a;
-        transform: rotate(-2deg);
     }
 
-    /* Tête inclinée comme le vrai EMF */
+    /* Tête EMF droite */
     .emf-head {
         position: absolute;
-        top: 20px;
+        top: 25px;
         left: 50%;
-        transform: translateX(-50%) rotate(-6deg);
+        transform: translateX(-50%);
         width: 180px;
         height: 110px;
         background: #0f121b;
@@ -127,7 +126,7 @@
         color: #36f9a5;
     }
 
-    /* Bouton rond */
+    /* Bouton rond centré */
     .emf-button {
         position: absolute;
         bottom: 80px;
