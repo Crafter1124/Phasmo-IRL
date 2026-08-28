@@ -5,7 +5,7 @@
 <title>EMF Phasmo IRL</title>
 <style>
     body {
-        background: #0b0b10;
+        background: #05060a;
         color: white;
         font-family: Arial, sans-serif;
         display: flex;
@@ -17,7 +17,7 @@
     #controls {
         width: 220px;
         padding: 20px;
-        background: #14141d;
+        background: #11131b;
         display: flex;
         flex-direction: column;
         gap: 10px;
@@ -66,36 +66,36 @@
         border: 2px solid #30364a;
     }
 
-    /* Tête EMF (LEDs) */
+    /* Tête EMF (LEDs en arc) */
     .emf-head {
         position: absolute;
         top: 25px;
         left: 50%;
         transform: translateX(-50%);
-        width: 160px;
-        height: 90px;
+        width: 170px;
+        height: 95px;
         background: #11141f;
-        border-radius: 50px;
+        border-radius: 55px;
         border: 2px solid #2b3144;
         display: flex;
         justify-content: space-around;
-        align-items: center;
-        padding: 10px 15px;
+        align-items: flex-end;
+        padding: 10px 15px 15px 15px;
     }
 
     .emf-led {
-        width: 22px;
-        height: 45px;
-        border-radius: 12px;
+        width: 26px;
+        height: 55px;
+        border-radius: 14px;
         background: #333;
-        opacity: 0.2;
+        opacity: 0.15;
         box-shadow: 0 0 0 transparent;
         transition: 0.2s;
     }
 
     .emf-led.active {
         opacity: 1;
-        box-shadow: 0 0 12px currentColor;
+        box-shadow: 0 0 14px currentColor;
     }
 
     #led1 { background: #00c853; color: #00c853; }   /* vert */
