@@ -5,9 +5,9 @@
 <title>EMF Phasmo IRL</title>
 <style>
     body {
-        background: #111;
+        background: #0b0b10;
         color: white;
-        font-family: Arial;
+        font-family: Arial, sans-serif;
         display: flex;
         height: 100vh;
         margin: 0;
@@ -15,61 +15,152 @@
 
     /* Zone des boutons */
     #controls {
-        width: 200px;
+        width: 220px;
         padding: 20px;
-        background: #222;
+        background: #14141d;
         display: flex;
         flex-direction: column;
         gap: 10px;
+        box-shadow: 0 0 15px #000;
+    }
+
+    #controls h2 {
+        margin-top: 0;
+        margin-bottom: 10px;
+        font-size: 20px;
+        text-align: center;
     }
 
     button {
-        padding: 15px;
+        padding: 12px;
         font-size: 18px;
-        background: #333;
+        background: #222636;
         color: white;
         border: none;
         cursor: pointer;
         border-radius: 8px;
+        transition: 0.15s;
     }
 
     button:hover {
-        background: #444;
+        background: #2f3650;
+        transform: translateY(-1px);
     }
 
-    /* EMF visuel */
-    #emf {
+    /* Zone EMF */
+    #emf-zone {
         flex: 1;
         display: flex;
         justify-content: center;
         align-items: center;
     }
 
-    .emf-bar {
-        width: 60px;
-        height: 200px;
+    /* Boîtier EMF */
+    .emf-body {
+        width: 220px;
+        height: 420px;
+        background: #1b1f2b;
+        border-radius: 25px;
+        position: relative;
+        box-shadow: 0 0 25px rgba(0,0,0,0.8);
+        border: 2px solid #30364a;
+    }
+
+    /* Tête EMF (LEDs) */
+    .emf-head {
+        position: absolute;
+        top: 25px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 160px;
+        height: 90px;
+        background: #11141f;
+        border-radius: 50px;
+        border: 2px solid #2b3144;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        padding: 10px 15px;
+    }
+
+    .emf-led {
+        width: 22px;
+        height: 45px;
+        border-radius: 12px;
         background: #333;
-        margin: 10px;
-        border-radius: 10px;
         opacity: 0.2;
+        box-shadow: 0 0 0 transparent;
         transition: 0.2s;
     }
 
-    .active {
+    .emf-led.active {
         opacity: 1;
+        box-shadow: 0 0 12px currentColor;
     }
 
-    /* Couleurs EMF */
-    #bar1.active { background: green; }
-    #bar2.active { background: blue; }
-    #bar3.active { background: yellow; }
-    #bar4.active { background: orange; }
-    #bar5.active { background: red; }
+    #led1 { background: #00c853; color: #00c853; }   /* vert */
+    #led2 { background: #00b0ff; color: #00b0ff; }   /* bleu */
+    #led3 { background: #ffeb3b; color: #ffeb3b; }   /* jaune */
+    #led4 { background: #ff9800; color: #ff9800; }   /* orange */
+    #led5 { background: #ff1744; color: #ff1744; }   /* rouge */
+
+    /* Écran / texte EMF */
+    .emf-screen {
+        position: absolute;
+        top: 140px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 160px;
+        height: 70px;
+        background: #10131d;
+        border-radius: 12px;
+        border: 2px solid #262c3f;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .emf-label {
+        font-size: 14px;
+        color: #9fa6c7;
+        margin-bottom: 5px;
+    }
+
+    .emf-value {
+        font-size: 32px;
+        letter-spacing: 2px;
+        color: #36f9a5;
+    }
+
+    /* Bouton physique */
+    .emf-button {
+        position: absolute;
+        bottom: 60px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: radial-gradient(circle at 30% 30%, #3b425c, #151822);
+        border: 2px solid #3c4258;
+        box-shadow: 0 0 12px rgba(0,0,0,0.8);
+    }
+
+    .emf-bottom-text {
+        position: absolute;
+        bottom: 20px;
+        width: 100%;
+        text-align: center;
+        font-size: 12px;
+        color: #70789a;
+    }
 </style>
 </head>
 <body>
 
 <div id="controls">
+    <h2>Contrôle EMF</h2>
     <button onclick="setEMF(1)">EMF 1</button>
     <button onclick="setEMF(2)">EMF 2</button>
     <button onclick="setEMF(3)">EMF 3</button>
@@ -77,12 +168,27 @@
     <button onclick="setEMF(5)">EMF 5</button>
 </div>
 
-<div id="emf">
-    <div id="bar1" class="emf-bar"></div>
-    <div id="bar2" class="emf-bar"></div>
-    <div id="bar3" class="emf-bar"></div>
-    <div id="bar4" class="emf-bar"></div>
-    <div id="bar5" class="emf-bar"></div>
+<div id="emf-zone">
+    <div class="emf-body">
+        <div class="emf-head">
+            <div id="led1" class="emf-led"></div>
+            <div id="led2" class="emf-led"></div>
+            <div id="led3" class="emf-led"></div>
+            <div id="led4" class="emf-led"></div>
+            <div id="led5" class="emf-led"></div>
+        </div>
+
+        <div class="emf-screen">
+            <div class="emf-label">Niveau EMF</div>
+            <div id="emf-value" class="emf-value">0</div>
+        </div>
+
+        <div class="emf-button"></div>
+
+        <div class="emf-bottom-text">
+            Phasmo IRL • EMF Reader
+        </div>
+    </div>
 </div>
 
 <!-- Sons EMF -->
@@ -94,18 +200,21 @@
 
 <script>
 function setEMF(level) {
-    // Désactive toutes les barres
+    // LEDs
     for (let i = 1; i <= 5; i++) {
-        document.getElementById("bar" + i).classList.remove("active");
+        document.getElementById("led" + i).classList.remove("active");
     }
-
-    // Active les barres jusqu'au niveau choisi
     for (let i = 1; i <= level; i++) {
-        document.getElementById("bar" + i).classList.add("active");
+        document.getElementById("led" + i).classList.add("active");
     }
 
-    // Joue le son correspondant
-    document.getElementById("sound" + level).play();
+    // Valeur affichée
+    document.getElementById("emf-value").textContent = level;
+
+    // Son
+    const sound = document.getElementById("sound" + level);
+    sound.currentTime = 0;
+    sound.play();
 }
 </script>
 
