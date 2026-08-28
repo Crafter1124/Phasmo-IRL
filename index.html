@@ -1,3 +1,9 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>EMF Phasmo IRL</title>
+
 <style>
     body {
         background: #0a0a0d;
@@ -8,6 +14,7 @@
         margin: 0;
     }
 
+    /* Boutons */
     #controls {
         width: 220px;
         padding: 20px;
@@ -34,7 +41,7 @@
         transform: translateY(-1px);
     }
 
-    /* EMF centré parfaitement */
+    /* Zone EMF */
     #emf-zone {
         flex: 1;
         display: flex;
@@ -42,7 +49,7 @@
         align-items: center;
     }
 
-    /* Boîtier droit */
+    /* Boîtier EMF parfaitement droit */
     .emf-body {
         width: 240px;
         height: 480px;
@@ -51,30 +58,30 @@
         position: relative;
         box-shadow: 0 0 25px rgba(0,0,0,0.8);
         border: 3px solid #30364a;
-        transform: none; /* IMPORTANT */
+        transform: none;
     }
 
-    /* Tête EMF parfaitement droite */
+    /* Tête EMF droite */
     .emf-head {
         position: absolute;
         top: 30px;
         left: 50%;
-        transform: translateX(-50%); /* PAS DE ROTATION */
-        width: 160px; /* FIX : plus étroit */
-        height: 70px; /* FIX : plus compact */
+        transform: translateX(-50%);
+        width: 170px;
+        height: 75px;
         background: #0f121b;
         border-radius: 15px;
         border: 3px solid #2b3144;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 10px 12px;
+        padding: 10px 15px;
     }
 
     /* LEDs droites */
     .emf-led {
-        width: 22px;
-        height: 45px;
+        width: 24px;
+        height: 50px;
         border-radius: 8px;
         background: #333;
         opacity: 0.15;
@@ -92,7 +99,7 @@
     #led4 { background: #ff9800; color: #ff9800; }
     #led5 { background: #ff1744; color: #ff1744; }
 
-    /* Écran droit */
+    /* Écran */
     .emf-screen {
         position: absolute;
         top: 140px;
@@ -144,26 +151,70 @@
         color: #70789a;
     }
 </style>
+</head>
+
+<body>
+
+<div id="controls">
+    <button onclick="setEMF(1)">EMF 1</button>
+    <button onclick="setEMF(2)">EMF 2</button>
+    <button onclick="setEMF(3)">EMF 3</button>
+    <button onclick="setEMF(4)">EMF 4</button>
+    <button onclick="setEMF(5)">EMF 5</button>
+</div>
+
+<div id="emf-zone">
+    <div class="emf-body">
+
+        <div class="emf-head">
+            <div id="led1" class="emf-led"></div>
+            <div id="led2" class="emf-led"></div>
+            <div id="led3" class="emf-led"></div>
+            <div id="led4" class="emf-led"></div>
+            <div id="led5" class="emf-led"></div>
+        </div>
+
+        <div class="emf-screen">
+            <div class="emf-label">Niveau EMF</div>
+            <div id="emf-value" class="emf-value">0</div>
+        </div>
+
+        <div class="emf-button"></div>
+
+        <div class="emf-bottom-text">
+            EMF Reader • Phasmo IRL
+        </div>
+
+    </div>
+</div>
+
+<!-- Sons -->
+<audio id="sound1" src="https://assets.mixkit.co/sfx/preview/mixkit-small-click-1123.mp3"></audio>
+<audio id="sound2" src="https://assets.mixkit.co/sfx/preview/mixkit-soft-pop-2350.mp3"></audio>
+<audio id="sound3" src="https://assets.mixkit.co/sfx/preview/mixkit-interface-click-1125.mp3"></audio>
+<audio id="sound4" src="https://assets.mixkit.co/sfx/preview/mixkit-select-click-1109.mp3"></audio>
+<audio id="sound5" src="https://assets.mixkit.co/sfx/preview/mixkit-warning-alarm-buzzer-991.mp3"></audio>
 
 <script>
 function setEMF(level) {
-    // Désactive toutes les LEDs
+
+    // LEDs
     for (let i = 1; i <= 5; i++) {
         document.getElementById("led" + i).classList.remove("active");
     }
-
-    // Active les LEDs jusqu'au niveau choisi
     for (let i = 1; i <= level; i++) {
         document.getElementById("led" + i).classList.add("active");
     }
 
-    // Met à jour l'affichage du niveau EMF
+    // Valeur affichée
     document.getElementById("emf-value").textContent = level;
 
-    // Joue le son correspondant
+    // Son
     const sound = document.getElementById("sound" + level);
     sound.currentTime = 0;
     sound.play();
 }
 </script>
 
+</body>
+</html>
