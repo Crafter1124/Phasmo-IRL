@@ -34,7 +34,7 @@
         transform: translateY(-1px);
     }
 
-    /* Zone EMF bien centrée */
+    /* EMF centré parfaitement */
     #emf-zone {
         flex: 1;
         display: flex;
@@ -42,7 +42,7 @@
         align-items: center;
     }
 
-    /* Boîtier parfaitement droit */
+    /* Boîtier droit */
     .emf-body {
         width: 240px;
         height: 480px;
@@ -51,32 +51,33 @@
         position: relative;
         box-shadow: 0 0 25px rgba(0,0,0,0.8);
         border: 3px solid #30364a;
+        transform: none; /* IMPORTANT */
     }
 
-    /* Tête EMF droite, sans rotation */
+    /* Tête EMF parfaitement droite */
     .emf-head {
         position: absolute;
         top: 30px;
         left: 50%;
-        transform: translateX(-50%); /* plus de rotate */
-        width: 190px;
-        height: 80px;
+        transform: translateX(-50%); /* PAS DE ROTATION */
+        width: 160px; /* FIX : plus étroit */
+        height: 70px; /* FIX : plus compact */
         background: #0f121b;
-        border-radius: 20px;
+        border-radius: 15px;
         border: 3px solid #2b3144;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 10px 15px;
+        padding: 10px 12px;
     }
 
+    /* LEDs droites */
     .emf-led {
-        width: 26px;
-        height: 50px;
-        border-radius: 10px;
+        width: 22px;
+        height: 45px;
+        border-radius: 8px;
         background: #333;
         opacity: 0.15;
-        box-shadow: 0 0 0 transparent;
         transition: 0.2s;
     }
 
@@ -91,6 +92,7 @@
     #led4 { background: #ff9800; color: #ff9800; }
     #led5 { background: #ff1744; color: #ff1744; }
 
+    /* Écran droit */
     .emf-screen {
         position: absolute;
         top: 140px;
@@ -119,6 +121,7 @@
         color: #36f9a5;
     }
 
+    /* Bouton rond centré */
     .emf-button {
         position: absolute;
         bottom: 80px;
