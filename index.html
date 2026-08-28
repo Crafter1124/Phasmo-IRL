@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>EMF Phasmo IRL</title>
+<style>
+    body {
+        background: #111;
+        color: white;
+        font-family: Arial;
+        display: flex;
+        height: 100vh;
+        margin: 0;
+    }
+
+    /* Zone des boutons */
+    #controls {
+        width: 200px;
+        padding: 20px;
+        background: #222;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    button {
+        padding: 15px;
+        font-size: 18px;
+        background: #333;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 8px;
+    }
+
+    button:hover {
+        background: #444;
+    }
+
+    /* EMF visuel */
+    #emf {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .emf-bar {
+        width: 60px;
+        height: 200px;
+        background: #333;
+        margin: 10px;
+        border-radius: 10px;
+        opacity: 0.2;
+        transition: 0.2s;
+    }
+
+    .active {
+        opacity: 1;
+    }
+
+    /* Couleurs EMF */
+    #bar1.active { background: green; }
+    #bar2.active { background: blue; }
+    #bar3.active { background: yellow; }
+    #bar4.active { background: orange; }
+    #bar5.active { background: red; }
+</style>
+</head>
+<body>
+
+<div id="controls">
+    <button onclick="setEMF(1)">EMF 1</button>
+    <button onclick="setEMF(2)">EMF 2</button>
+    <button onclick="setEMF(3)">EMF 3</button>
+    <button onclick="setEMF(4)">EMF 4</button>
+    <button onclick="setEMF(5)">EMF 5</button>
+</div>
+
+<div id="emf">
+    <div id="bar1" class="emf-bar"></div>
+    <div id="bar2" class="emf-bar"></div>
+    <div id="bar3" class="emf-bar"></div>
+    <div id="bar4" class="emf-bar"></div>
+    <div id="bar5" class="emf-bar"></div>
+</div>
+
+<!-- Sons EMF -->
+<audio id="sound1" src="https://assets.mixkit.co/sfx/preview/mixkit-small-click-1123.mp3"></audio>
+<audio id="sound2" src="https://assets.mixkit.co/sfx/preview/mixkit-soft-pop-2350.mp3"></audio>
+<audio id="sound3" src="https://assets.mixkit.co/sfx/preview/mixkit-interface-click-1125.mp3"></audio>
+<audio id="sound4" src="https://assets.mixkit.co/sfx/preview/mixkit-select-click-1109.mp3"></audio>
+<audio id="sound5" src="https://assets.mixkit.co/sfx/preview/mixkit-warning-alarm-buzzer-991.mp3"></audio>
+
+<script>
+function setEMF(level) {
+    // Désactive toutes les barres
+    for (let i = 1; i <= 5; i++) {
+        document.getElementById("bar" + i).classList.remove("active");
+    }
+
+    // Active les barres jusqu'au niveau choisi
+    for (let i = 1; i <= level; i++) {
+        document.getElementById("bar" + i).classList.add("active");
+    }
+
+    // Joue le son correspondant
+    document.getElementById("sound" + level).play();
+}
+</script>
+
+</body>
+</html>
