@@ -87,12 +87,11 @@
         box-shadow: 0 0 10px currentColor;
     }
 
-#led1 { background: #00FF00; color: #00FF00; }   /* Vert */
-#led2 { background: #66FF00; color: #66FF00; }   /* Vert clair */
-#led3 { background: #FFFF00; color: #FFFF00; }   /* Jaune */
-#led4 { background: #FF9900; color: #FF9900; }   /* Orange */
-#led5 { background: #FF0000; color: #FF0000; }   /* Rouge */
-
+    #led1 { background: #00FF00; color: #00FF00; }
+    #led2 { background: #66FF00; color: #66FF00; }
+    #led3 { background: #FFFF00; color: #FFFF00; }
+    #led4 { background: #FF9900; color: #FF9900; }
+    #led5 { background: #FF0000; color: #FF0000; }
 
     .emf-screen {
         position: absolute;
@@ -181,17 +180,47 @@
     </div>
 </div>
 
-<!-- Sons EMF (tu dois mettre tes fichiers ici) -->
+<!-- Sons -->
 <audio id="sound1" src="sound1.mp3"></audio>
 <audio id="sound2" src="SonEMF/emf2.mp3"></audio>
 <audio id="sound3" src="SonEMF/emf3.mp3"></audio>
 <audio id="sound4" src="SonEMF/emf4.mp3"></audio>
 <audio id="sound5" src="SonEMF/emf5.mp3"></audio>
 
+<!-- Firebase CDN -->
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
 <script>
+// CONFIG FIREBASE
+const firebaseConfig = {
+  apiKey: "AIzaSyDOTNHQhMFBq0U07yD853fddh-KtiClObk",
+  authDomain: "phasmo-irl-654f9.firebaseapp.com",
+  databaseURL: "https://phasmo-irl-654f9-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "phasmo-irl-654f9",
+  storageBucket: "phasmo-irl-654f9.firebasestorage.app",
+  messagingSenderId: "902059581012",
+  appId: "1:902059581012:web:855445afb0a72182c397c1"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
 let currentSound = null;
 
+// Quand tu cliques → on envoie le niveau à Firebase
 function setEMF(level) {
+    db.ref("emfLevel").set(level);
+}
+
+// Tous les navigateurs écoutent Firebase
+db.ref("emfLevel").on("value", snapshot => {
+    const level = snapshot.val();
+    applyEMF(level);
+});
+
+// Applique l’EMF localement
+function applyEMF(level) {
 
     for (let i = 1; i <= 5; i++) {
         document.getElementById("led" + i).classList.remove("active");
