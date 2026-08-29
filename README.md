@@ -2,6 +2,7 @@
 
 V0.9
 - Refonte des couleurs du emf pour chaque niveau
+- Nouveau son pou "emf3"
 
 v0.8
 - Ajout de son pour chaque niveau d'emf
