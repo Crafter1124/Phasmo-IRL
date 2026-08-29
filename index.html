@@ -12,16 +12,17 @@
         height: 100vh;
         margin: 0;
         overflow: hidden;
+        position: relative;
     }
 
-    /* Boutons de mode */
+    /* Boutons de mode — FIXÉS EN BAS À GAUCHE */
     #mode-switch {
-        position: absolute;
+        position: fixed;
         bottom: 20px;
         left: 20px;
         display: flex;
         gap: 10px;
-        z-index: 10;
+        z-index: 9999;
     }
 
     #mode-switch button {
@@ -40,8 +41,12 @@
 
     /* EMF MODE */
     #emf-mode {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
         display: flex;
-        height: 100%;
     }
 
     #controls {
@@ -151,6 +156,7 @@
         color: #36f9a5;
     }
 
+    /* TEXTE FIXÉ EN BAS DU LECTEUR */
     .emf-bottom-text {
         position: absolute;
         bottom: 20px;
@@ -162,8 +168,12 @@
 
     /* THERMOMÈTRE MODE */
     #thermo-mode {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
         display: none;
-        height: 100%;
         padding: 20px;
     }
 
@@ -312,11 +322,22 @@ const db = firebase.database();
 function showEMF() {
     document.getElementById("emf-mode").style.display = "flex";
     document.getElementById("thermo-mode").style.display = "none";
+
+    // 🔊 Rejouer le son EMF si un niveau est actif
+    if (currentSound) {
+        currentSound.play().catch(()=>{});
+    }
 }
 
 function showThermo() {
     document.getElementById("emf-mode").style.display = "none";
     document.getElementById("thermo-mode").style.display = "block";
+
+    // 🔇 STOPPER LE SON EMF
+    if (currentSound) {
+        currentSound.pause();
+        currentSound.currentTime = 0;
+    }
 }
 
 /* EMF */
@@ -348,9 +369,11 @@ function applyEMF(level) {
         currentSound.currentTime = 0;
     }
 
-    currentSound = document.getElementById("sound" + level);
-    currentSound.loop = true;
-    currentSound.play();
+    if (level > 0) {
+        currentSound = document.getElementById("sound" + level);
+        currentSound.loop = true;
+        currentSound.play().catch(()=>{});
+    }
 }
 
 /* THERMOMÈTRE */
