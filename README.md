@@ -1,4 +1,8 @@
 # Phasmo-IRL
+
+V0.9
+- Refonte des couleurs du emf pour chaque niveau
+
 v0.8
 - Ajout de son pour chaque niveau d'emf
 - Correctif de bug sur chrome
