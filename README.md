@@ -1,4 +1,8 @@
 # Phasmo-IRL
+v0.8
+- Ajout de chaque son par niveau d'emf
+- Correctif de bug sur chrome
+
 V0.7:
 - Correctif sur le model 3d d'emf
 - Correctif de bug
