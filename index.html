@@ -42,10 +42,7 @@
     /* EMF MODE */
     #emf-mode {
         position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
+        inset: 0;
         display: flex;
     }
 
@@ -169,10 +166,7 @@
     /* THERMOMÈTRE MODE */
     #thermo-mode {
         position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
+        inset: 0;
         display: none;
         padding: 20px;
     }
@@ -318,22 +312,27 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
+/* MODE ACTUEL */
+let isInEMFMode = true;
+
 /* SWITCH DE MODE */
 function showEMF() {
+    isInEMFMode = true;
+
     document.getElementById("emf-mode").style.display = "flex";
     document.getElementById("thermo-mode").style.display = "none";
 
-    // 🔊 Rejouer le son EMF si un niveau est actif
     if (currentSound) {
         currentSound.play().catch(()=>{});
     }
 }
 
 function showThermo() {
+    isInEMFMode = false;
+
     document.getElementById("emf-mode").style.display = "none";
     document.getElementById("thermo-mode").style.display = "block";
 
-    // 🔇 STOPPER LE SON EMF
     if (currentSound) {
         currentSound.pause();
         currentSound.currentTime = 0;
@@ -355,6 +354,8 @@ db.ref("emfLevel").on("value", snapshot => {
 });
 
 function applyEMF(level) {
+
+    // LEDs
     for (let i = 1; i <= 5; i++) {
         document.getElementById("led" + i).classList.remove("active");
     }
@@ -364,11 +365,18 @@ function applyEMF(level) {
 
     document.getElementById("emf-value").textContent = level;
 
+    // Stopper le son actuel
     if (currentSound) {
         currentSound.pause();
         currentSound.currentTime = 0;
     }
 
+    // 🔥 NE PAS JOUER LE SON SI ON EST DANS LE THERMOMÈTRE
+    if (!isInEMFMode) {
+        return;
+    }
+
+    // Jouer le son seulement si EMF > 0
     if (level > 0) {
         currentSound = document.getElementById("sound" + level);
         currentSound.loop = true;
