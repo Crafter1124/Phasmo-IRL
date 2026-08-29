@@ -1,6 +1,6 @@
 # Phasmo-IRL
 v0.8
-- Ajout de chaque son par niveau d'emf
+- Ajout de son pour chaque niveau d'emf
 - Correctif de bug sur chrome
 
 V0.7:
