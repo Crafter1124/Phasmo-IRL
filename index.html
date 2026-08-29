@@ -14,7 +14,6 @@
         margin: 0;
     }
 
-    /* Boutons */
     #controls {
         width: 220px;
         padding: 20px;
@@ -41,7 +40,6 @@
         transform: translateY(-1px);
     }
 
-    /* Zone EMF */
     #emf-zone {
         flex: 1;
         display: flex;
@@ -49,7 +47,6 @@
         align-items: center;
     }
 
-    /* Boîtier EMF parfaitement droit */
     .emf-body {
         width: 240px;
         height: 480px;
@@ -58,10 +55,8 @@
         position: relative;
         box-shadow: 0 0 25px rgba(0,0,0,0.8);
         border: 3px solid #30364a;
-        transform: none;
     }
 
-    /* Tête EMF droite */
     .emf-head {
         position: absolute;
         top: 30px;
@@ -78,7 +73,6 @@
         padding: 10px 15px;
     }
 
-    /* LEDs droites */
     .emf-led {
         width: 24px;
         height: 50px;
@@ -99,7 +93,6 @@
     #led4 { background: #ff9800; color: #ff9800; }
     #led5 { background: #ff1744; color: #ff1744; }
 
-    /* Écran */
     .emf-screen {
         position: absolute;
         top: 140px;
@@ -128,7 +121,6 @@
         color: #36f9a5;
     }
 
-    /* Bouton rond centré */
     .emf-button {
         position: absolute;
         bottom: 80px;
@@ -188,17 +180,18 @@
     </div>
 </div>
 
-<!-- Sons -->
-<audio id="sound1" src="https://assets.mixkit.co/sfx/preview/mixkit-small-click-1123.mp3"></audio>
-<audio id="sound2" src="https://assets.mixkit.co/sfx/preview/mixkit-soft-pop-2350.mp3"></audio>
-<audio id="sound3" src="https://assets.mixkit.co/sfx/preview/mixkit-interface-click-1125.mp3"></audio>
-<audio id="sound4" src="https://assets.mixkit.co/sfx/preview/mixkit-select-click-1109.mp3"></audio>
-<audio id="sound5" src="https://assets.mixkit.co/sfx/preview/mixkit-warning-alarm-buzzer-991.mp3"></audio>
+<!-- Sons EMF (tu dois mettre tes fichiers ici) -->
+<audio id="sound1" src="sound1.mp3"></audio>
+<audio id="sound2" src="sound2.mp3"></audio>
+<audio id="sound3" src="sound3.mp3"></audio>
+<audio id="sound4" src="sound4.mp3"></audio>
+<audio id="sound5" src="sound5.mp3"></audio>
 
 <script>
+let currentSound = null;
+
 function setEMF(level) {
 
-    // LEDs
     for (let i = 1; i <= 5; i++) {
         document.getElementById("led" + i).classList.remove("active");
     }
@@ -206,13 +199,16 @@ function setEMF(level) {
         document.getElementById("led" + i).classList.add("active");
     }
 
-    // Valeur affichée
     document.getElementById("emf-value").textContent = level;
 
-    // Son
-    const sound = document.getElementById("sound" + level);
-    sound.currentTime = 0;
-    sound.play();
+    if (currentSound) {
+        currentSound.pause();
+        currentSound.currentTime = 0;
+    }
+
+    currentSound = document.getElementById("sound" + level);
+    currentSound.loop = true;
+    currentSound.play();
 }
 </script>
 
