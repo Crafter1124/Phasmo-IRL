@@ -2,16 +2,46 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>EMF Phasmo IRL</title>
+<title>Phasmo IRL • EMF & Thermomètre</title>
 
 <style>
     body {
         background: #0a0a0d;
         color: white;
         font-family: Arial, sans-serif;
-        display: flex;
         height: 100vh;
         margin: 0;
+        overflow: hidden;
+    }
+
+    /* Boutons de mode */
+    #mode-switch {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        display: flex;
+        gap: 10px;
+        z-index: 10;
+    }
+
+    #mode-switch button {
+        padding: 10px 15px;
+        background: #222636;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    #mode-switch button:hover {
+        background: #2f3650;
+    }
+
+    /* EMF MODE */
+    #emf-mode {
+        display: flex;
+        height: 100%;
     }
 
     #controls {
@@ -24,7 +54,7 @@
         box-shadow: 0 0 15px #000;
     }
 
-    button {
+    #controls button {
         padding: 12px;
         font-size: 18px;
         background: #222636;
@@ -35,7 +65,7 @@
         transition: 0.15s;
     }
 
-    button:hover {
+    #controls button:hover {
         background: #2f3650;
         transform: translateY(-1px);
     }
@@ -87,11 +117,11 @@
         box-shadow: 0 0 10px currentColor;
     }
 
-    #led1 { background: #00FF00; color: #00FF00; }
-    #led2 { background: #66FF00; color: #66FF00; }
-    #led3 { background: #FFFF00; color: #FFFF00; }
-    #led4 { background: #FF9900; color: #FF9900; }
-    #led5 { background: #FF0000; color: #FF0000; }
+    #led1 { background: #00FF00; }
+    #led2 { background: #66FF00; }
+    #led3 { background: #FFFF00; }
+    #led4 { background: #FF9900; }
+    #led5 { background: #FF0000; }
 
     .emf-screen {
         position: absolute;
@@ -121,60 +151,123 @@
         color: #36f9a5;
     }
 
-    .emf-button {
-        position: absolute;
-        bottom: 80px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 70px;
-        height: 70px;
-        border-radius: 50%;
-        background: radial-gradient(circle at 30% 30%, #3b425c, #151822);
-        border: 3px solid #3c4258;
-        box-shadow: 0 0 12px rgba(0,0,0,0.8);
+    /* THERMOMÈTRE MODE */
+    #thermo-mode {
+        display: none;
+        height: 100%;
+        padding: 20px;
     }
 
-    .emf-bottom-text {
-        position: absolute;
-        bottom: 30px;
-        width: 100%;
-        text-align: center;
-        font-size: 12px;
-        color: #70789a;
+    #thermo-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        flex-direction: column;
+        gap: 20px;
     }
+
+    #thermo-display {
+        font-size: 60px;
+        color: #36f9a5;
+        margin-bottom: 20px;
+    }
+
+    #room-buttons button {
+        padding: 10px 15px;
+        background: #222636;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 18px;
+        margin: 5px;
+    }
+
+    #room-buttons button:hover {
+        background: #2f3650;
+    }
+
+    #last-room {
+        font-size: 20px;
+        color: #9fa6c7;
+    }
+
+    #temp-input {
+        padding: 10px;
+        font-size: 20px;
+        width: 120px;
+        text-align: center;
+        border-radius: 8px;
+        border: none;
+        background: #222636;
+        color: white;
+    }
+
 </style>
 </head>
 
 <body>
 
-<div id="controls">
-    <button onclick="setEMF(1)">EMF 1</button>
-    <button onclick="setEMF(2)">EMF 2</button>
-    <button onclick="setEMF(3)">EMF 3</button>
-    <button onclick="setEMF(4)">EMF 4</button>
-    <button onclick="setEMF(5)">EMF 5</button>
+<!-- SWITCH DE MODE -->
+<div id="mode-switch">
+    <button onclick="showEMF()">EMF</button>
+    <button onclick="showThermo()">Thermomètre</button>
 </div>
 
-<div id="emf-zone">
-    <div class="emf-body">
+<!-- MODE EMF -->
+<div id="emf-mode">
+    <div id="controls">
+        <button onclick="setEMF(1)">EMF 1</button>
+        <button onclick="setEMF(2)">EMF 2</button>
+        <button onclick="setEMF(3)">EMF 3</button>
+        <button onclick="setEMF(4)">EMF 4</button>
+        <button onclick="setEMF(5)">EMF 5</button>
+    </div>
 
-        <div class="emf-head">
-            <div id="led1" class="emf-led"></div>
-            <div id="led2" class="emf-led"></div>
-            <div id="led3" class="emf-led"></div>
-            <div id="led4" class="emf-led"></div>
-            <div id="led5" class="emf-led"></div>
+    <div id="emf-zone">
+        <div class="emf-body">
+
+            <div class="emf-head">
+                <div id="led1" class="emf-led"></div>
+                <div id="led2" class="emf-led"></div>
+                <div id="led3" class="emf-led"></div>
+                <div id="led4" class="emf-led"></div>
+                <div id="led5" class="emf-led"></div>
+            </div>
+
+            <div class="emf-screen">
+                <div class="emf-label">Niveau EMF</div>
+                <div id="emf-value" class="emf-value">0</div>
+            </div>
+
+            <div class="emf-button"></div>
+
+            <div class="emf-bottom-text">
+                EMF Reader • Phasmo IRL
+            </div>
+
         </div>
+    </div>
+</div>
 
-        <div class="emf-screen">
-            <div class="emf-label">Niveau EMF</div>
-            <div id="emf-value" class="emf-value">0</div>
-        </div>
+<!-- MODE THERMOMÈTRE -->
+<div id="thermo-mode">
+    <div id="thermo-container">
 
-        <div class="emf-button"></div>
+        <div id="last-room">Dernière requête : aucune</div>
 
-        <div class="emf-bottom-text">
-            EMF Reader • Phasmo IRL
+        <div id="thermo-display">-- °C</div>
+
+        <input id="temp-input" type="number" placeholder="Température" />
+
+        <button onclick="sendTemperature()">Envoyer</button>
+
+        <div id="room-buttons">
+            <button onclick="setRoom('Salon')">Salon</button>
+            <button onclick="setRoom('Cuisine')">Cuisine</button>
+            <button onclick="setRoom('Salle à manger')">Salle à manger</button>
+            <button onclick="setRoom('Garage')">Garage</button>
         </div>
 
     </div>
@@ -187,7 +280,7 @@
 <audio id="sound4" src="SonEMF/emf4.mp3"></audio>
 <audio id="sound5" src="SonEMF/emf5.mp3"></audio>
 
-<!-- Firebase CDN -->
+<!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 
@@ -206,22 +299,32 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
+/* SWITCH DE MODE */
+function showEMF() {
+    document.getElementById("emf-mode").style.display = "flex";
+    document.getElementById("thermo-mode").style.display = "none";
+}
+
+function showThermo() {
+    document.getElementById("emf-mode").style.display = "none";
+    document.getElementById("thermo-mode").style.display = "block";
+}
+
+/* EMF */
 let currentSound = null;
 
-// Quand tu cliques → on envoie le niveau à Firebase
 function setEMF(level) {
+    const unlock = new Audio();
+    unlock.play().catch(() => {});
     db.ref("emfLevel").set(level);
 }
 
-// Tous les navigateurs écoutent Firebase
 db.ref("emfLevel").on("value", snapshot => {
     const level = snapshot.val();
     applyEMF(level);
 });
 
-// Applique l’EMF localement
 function applyEMF(level) {
-
     for (let i = 1; i <= 5; i++) {
         document.getElementById("led" + i).classList.remove("active");
     }
@@ -240,6 +343,26 @@ function applyEMF(level) {
     currentSound.loop = true;
     currentSound.play();
 }
+
+/* THERMOMÈTRE */
+function setRoom(room) {
+    db.ref("lastRoom").set(room);
+}
+
+db.ref("lastRoom").on("value", snapshot => {
+    const room = snapshot.val();
+    document.getElementById("last-room").textContent = "Dernière requête : " + room;
+});
+
+function sendTemperature() {
+    const temp = document.getElementById("temp-input").value;
+    db.ref("temperature").set(temp);
+}
+
+db.ref("temperature").on("value", snapshot => {
+    const temp = snapshot.val();
+    document.getElementById("thermo-display").textContent = temp + " °C";
+});
 </script>
 
 </body>
