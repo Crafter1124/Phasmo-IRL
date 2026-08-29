@@ -1,5 +1,8 @@
 # Phasmo-IRL
 
+V1
+- Syncronisation de tout les sites
+
 V0.9
 - Refonte des couleurs du emf pour chaque niveau
 - Nouveau son pou "emf3"
