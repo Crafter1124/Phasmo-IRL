@@ -5,6 +5,7 @@
 <title>Phasmo IRL • EMF • Thermomètre • Preuves</title>
 
 <style>
+
     body {
         background: #0a0a0d;
         color: white;
@@ -45,7 +46,7 @@
 
 
     /* =========================
-       MODE EMF
+       EMF
     ========================= */
 
     #emf-mode {
@@ -230,7 +231,7 @@
 
 
     /* =========================
-       MODE PREUVES
+       PREUVES
     ========================= */
 
     #evidence-mode {
@@ -281,7 +282,7 @@
 
 
     /* =========================
-       BOUTONS PREUVES
+       PREUVES
     ========================= */
 
     #evidence-list {
@@ -307,8 +308,6 @@
         background: #2f3650;
     }
 
-    /* Preuve confirmée */
-
     .evidence-button.confirmed {
         background: #143d29;
         border-color: #36f9a5;
@@ -320,8 +319,6 @@
         float: right;
         font-weight: bold;
     }
-
-    /* Preuve impossible */
 
     .evidence-button.impossible {
         background: #351b20;
@@ -376,11 +373,6 @@
     .ghost.possible {
         opacity: 1;
     }
-
-
-    /* =========================
-       FANTÔME SÉLECTIONNÉ
-    ========================= */
 
     .ghost.selected {
         border: 2px solid #36f9a5;
@@ -452,7 +444,7 @@
 
 
 <!-- =========================
-     SWITCH DE MODE
+     MENU
 ========================= -->
 
 <div id="mode-switch">
@@ -473,32 +465,18 @@
 
 
 <!-- =========================
-     MODE EMF
+     EMF
 ========================= -->
 
 <div id="emf-mode">
 
     <div id="controls">
 
-        <button onclick="setEMF(1)">
-            EMF 1
-        </button>
-
-        <button onclick="setEMF(2)">
-            EMF 2
-        </button>
-
-        <button onclick="setEMF(3)">
-            EMF 3
-        </button>
-
-        <button onclick="setEMF(4)">
-            EMF 4
-        </button>
-
-        <button onclick="setEMF(5)">
-            EMF 5
-        </button>
+        <button onclick="setEMF(1)">EMF 1</button>
+        <button onclick="setEMF(2)">EMF 2</button>
+        <button onclick="setEMF(3)">EMF 3</button>
+        <button onclick="setEMF(4)">EMF 4</button>
+        <button onclick="setEMF(5)">EMF 5</button>
 
     </div>
 
@@ -543,7 +521,7 @@
 
 
 <!-- =========================
-     MODE THERMOMÈTRE
+     THERMOMÈTRE
 ========================= -->
 
 <div id="thermo-mode">
@@ -594,7 +572,7 @@
 
 
 <!-- =========================
-     MODE PREUVES
+     PREUVES
 ========================= -->
 
 <div id="evidence-mode">
@@ -615,9 +593,7 @@
         <div id="evidence-layout">
 
 
-            <!-- =========================
-                 PREUVES
-            ========================= -->
+            <!-- PREUVES -->
 
             <div class="evidence-panel">
 
@@ -637,9 +613,7 @@
             </div>
 
 
-            <!-- =========================
-                 FANTÔMES
-            ========================= -->
+            <!-- FANTÔMES -->
 
             <div class="ghost-panel">
 
@@ -691,22 +665,26 @@ const firebaseConfig = {
 
     apiKey: "AIzaSyDOTNHQhMFBq0U07yD853fddh-KtiClObk",
 
-    authDomain: "phasmo-irl-654f9.firebaseapp.com",
+    authDomain:
+        "phasmo-irl-654f9.firebaseapp.com",
 
     databaseURL:
         "https://phasmo-irl-654f9-default-rtdb.europe-west1.firebasedatabase.app",
 
-    projectId: "phasmo-irl-654f9",
+    projectId:
+        "phasmo-irl-654f9",
 
     storageBucket:
         "phasmo-irl-654f9.firebasestorage.app",
 
-    messagingSenderId: "902059581012",
+    messagingSenderId:
+        "902059581012",
 
     appId:
         "1:902059581012:web:855445afb0a72182c397c1"
 
 };
+
 
 firebase.initializeApp(firebaseConfig);
 
@@ -822,13 +800,9 @@ db.ref("emfLevel").on("value", snapshot => {
 function applyEMF(level) {
 
     if (!level) {
-
         level = 0;
-
     }
 
-
-    /* LEDs */
 
     for (let i = 1; i <= 5; i++) {
 
@@ -852,8 +826,6 @@ function applyEMF(level) {
         level;
 
 
-    /* Stopper le son */
-
     if (currentSound) {
 
         currentSound.pause();
@@ -863,16 +835,10 @@ function applyEMF(level) {
     }
 
 
-    /* Pas de son dans les autres modes */
-
     if (!isInEMFMode) {
-
         return;
-
     }
 
-
-    /* Son EMF */
 
     if (level > 0) {
 
@@ -930,15 +896,8 @@ db.ref("temperature").on("value", snapshot => {
 
 
 /* =========================================================
-   LIVRE DES PREUVES
+   PREUVES
 ========================================================= */
-
-
-/*
-    0 = neutre
-    1 = preuve confirmée
-    2 = preuve impossible
-*/
 
 const evidenceStates = {
 
@@ -969,13 +928,33 @@ const ghosts = {
 
     ],
 
-    "Jinn": [
+
+    "Djinn": [
 
         "EMF 5",
         "Ultraviolet",
         "Températures glaciales"
 
     ],
+
+
+    "Gallu": [
+
+        "EMF 5",
+        "Ultraviolet",
+        "Températures glaciales"
+
+    ],
+
+
+    "Mimic": [
+
+        "Ultraviolet",
+        "Températures glaciales",
+        "Spirit Box"
+
+    ],
+
 
     "Moroi": [
 
@@ -985,6 +964,7 @@ const ghosts = {
 
     ],
 
+
     "Myling": [
 
         "EMF 5",
@@ -992,6 +972,7 @@ const ghosts = {
         "Écriture fantomatique"
 
     ],
+
 
     "Poltergeist": [
 
@@ -1001,6 +982,7 @@ const ghosts = {
 
     ],
 
+
     "Shade": [
 
         "EMF 5",
@@ -1009,7 +991,8 @@ const ghosts = {
 
     ],
 
-    "Spirit": [
+
+    "Esprit": [
 
         "EMF 5",
         "Écriture fantomatique",
@@ -1017,7 +1000,8 @@ const ghosts = {
 
     ],
 
-    "The Twins": [
+
+    "Les Jumeaux": [
 
         "EMF 5",
         "Températures glaciales",
@@ -1029,7 +1013,7 @@ const ghosts = {
 
 
 /* =========================================================
-   CRÉATION DES BOUTONS DE PREUVES
+   BOUTONS PREUVES
 ========================================================= */
 
 function createEvidenceButtons() {
@@ -1067,18 +1051,14 @@ function createEvidenceButtons() {
 
 
 /* =========================================================
-   CHANGEMENT D'ÉTAT D'UNE PREUVE
+   CYCLE
 ========================================================= */
 
 function cycleEvidence(evidence) {
 
-    let current =
+    const current =
         evidenceStates[evidence];
 
-
-    /*
-        NEUTRE → CONFIRMÉE
-    */
 
     if (current === 0) {
 
@@ -1086,21 +1066,11 @@ function cycleEvidence(evidence) {
 
     }
 
-
-    /*
-        CONFIRMÉE → IMPOSSIBLE
-    */
-
     else if (current === 1) {
 
         evidenceStates[evidence] = 2;
 
     }
-
-
-    /*
-        IMPOSSIBLE → NEUTRE
-    */
 
     else {
 
@@ -1108,8 +1078,6 @@ function cycleEvidence(evidence) {
 
     }
 
-
-    /* Synchronisation */
 
     db.ref("evidenceStates").set(
         evidenceStates
@@ -1119,7 +1087,7 @@ function cycleEvidence(evidence) {
 
 
 /* =========================================================
-   RÉCEPTION DES PREUVES FIREBASE
+   FIREBASE PREUVES
 ========================================================= */
 
 db.ref("evidenceStates").on("value", snapshot => {
@@ -1149,7 +1117,7 @@ db.ref("evidenceStates").on("value", snapshot => {
 
 
 /* =========================================================
-   AFFICHAGE DES PREUVES
+   AFFICHAGE PREUVES
 ========================================================= */
 
 function updateEvidenceDisplay() {
@@ -1201,7 +1169,7 @@ function updateEvidenceDisplay() {
 
 
 /* =========================================================
-   FILTRAGE DES FANTÔMES
+   FILTRE FANTÔMES
 ========================================================= */
 
 function updateGhosts() {
@@ -1221,20 +1189,21 @@ function updateGhosts() {
         let eliminated = false;
 
 
-        /*
-            Une preuve confirmée doit
-            obligatoirement être présente.
-        */
-
         for (const evidence in evidenceStates) {
 
             const state =
                 evidenceStates[evidence];
 
 
+            /*
+               Preuve confirmée
+            */
+
             if (state === 1) {
 
-                if (!ghostEvidence.includes(evidence)) {
+                if (
+                    !ghostEvidence.includes(evidence)
+                ) {
 
                     eliminated = true;
 
@@ -1244,13 +1213,14 @@ function updateGhosts() {
 
 
             /*
-                Une preuve barrée ne peut
-                pas être présente.
+               Preuve impossible
             */
 
             if (state === 2) {
 
-                if (ghostEvidence.includes(evidence)) {
+                if (
+                    ghostEvidence.includes(evidence)
+                ) {
 
                     eliminated = true;
 
@@ -1261,7 +1231,7 @@ function updateGhosts() {
         }
 
 
-        /* Création du fantôme */
+        /* Création */
 
         const ghost =
             document.createElement("div");
@@ -1269,12 +1239,12 @@ function updateGhosts() {
 
         ghost.className =
             "ghost " +
-            (eliminated
-                ? "eliminated"
-                : "possible");
+            (
+                eliminated
+                    ? "eliminated"
+                    : "possible"
+            );
 
-
-        /* Nom */
 
         const name =
             document.createElement("div");
@@ -1286,8 +1256,6 @@ function updateGhosts() {
             ghostName;
 
 
-        /* Preuves */
-
         const evidenceText =
             document.createElement("div");
 
@@ -1297,8 +1265,6 @@ function updateGhosts() {
         evidenceText.textContent =
             ghostEvidence.join(" • ");
 
-
-        /* Bouton */
 
         const selectButton =
             document.createElement("button");
@@ -1336,7 +1302,7 @@ function updateGhosts() {
 
 
 /* =========================================================
-   FANTÔME SÉLECTIONNÉ
+   SÉLECTION FANTÔME
 ========================================================= */
 
 let selectedGhost = null;
@@ -1379,7 +1345,9 @@ function updateSelectedGhost() {
             "👻 Fantôme sélectionné : " +
             selectedGhost;
 
-    } else {
+    }
+
+    else {
 
         text.textContent =
             "Aucun fantôme sélectionné";
@@ -1429,7 +1397,7 @@ function updateSelectedGhost() {
 
 
 /* =========================================================
-   RESET DES PREUVES
+   RESET
 ========================================================= */
 
 function resetEvidence() {
