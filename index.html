@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Phasmo IRL • EMF & Thermomètre</title>
+<title>Phasmo IRL • EMF • Thermomètre • Preuves</title>
 
 <style>
     body {
@@ -15,7 +15,10 @@
         position: relative;
     }
 
-    /* Boutons de mode — FIXÉS EN BAS À GAUCHE */
+    /* =========================
+       BOUTONS DE MODE
+    ========================= */
+
     #mode-switch {
         position: fixed;
         bottom: 20px;
@@ -23,6 +26,7 @@
         display: flex;
         gap: 10px;
         z-index: 9999;
+        flex-wrap: wrap;
     }
 
     #mode-switch button {
@@ -39,7 +43,10 @@
         background: #2f3650;
     }
 
-    /* EMF MODE */
+    /* =========================
+       EMF MODE
+    ========================= */
+
     #emf-mode {
         position: absolute;
         inset: 0;
@@ -153,7 +160,6 @@
         color: #36f9a5;
     }
 
-    /* TEXTE FIXÉ EN BAS DU LECTEUR */
     .emf-bottom-text {
         position: absolute;
         bottom: 20px;
@@ -163,7 +169,10 @@
         color: #70789a;
     }
 
-    /* THERMOMÈTRE MODE */
+    /* =========================
+       THERMOMÈTRE
+    ========================= */
+
     #thermo-mode {
         position: absolute;
         inset: 0;
@@ -217,19 +226,227 @@
         color: white;
     }
 
+    /* =========================
+       PREUVES
+    ========================= */
+
+    #evidence-mode {
+        position: absolute;
+        inset: 0;
+        display: none;
+        padding: 25px;
+        overflow-y: auto;
+        box-sizing: border-box;
+    }
+
+    #evidence-container {
+        max-width: 1200px;
+        margin: auto;
+    }
+
+    #evidence-title {
+        text-align: center;
+        font-size: 32px;
+        margin-bottom: 10px;
+    }
+
+    #evidence-help {
+        text-align: center;
+        color: #9fa6c7;
+        margin-bottom: 25px;
+    }
+
+    #evidence-layout {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 25px;
+    }
+
+    .evidence-panel,
+    .ghost-panel {
+        background: #11131b;
+        border: 1px solid #292e40;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 0 15px #000;
+    }
+
+    .panel-title {
+        font-size: 22px;
+        margin-bottom: 15px;
+    }
+
+    /* Preuves */
+
+    #evidence-list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .evidence-button {
+        width: 100%;
+        padding: 15px;
+        border-radius: 8px;
+        border: 2px solid #30364a;
+        background: #222636;
+        color: white;
+        cursor: pointer;
+        text-align: left;
+        font-size: 17px;
+        transition: 0.15s;
+    }
+
+    .evidence-button:hover {
+        background: #2f3650;
+    }
+
+    /* État preuve confirmée */
+
+    .evidence-button.confirmed {
+        background: #143d29;
+        border-color: #36f9a5;
+        color: #36f9a5;
+    }
+
+    .evidence-button.confirmed::after {
+        content: "  ✓";
+        float: right;
+        font-weight: bold;
+    }
+
+    /* État preuve impossible */
+
+    .evidence-button.impossible {
+        background: #351b20;
+        border-color: #ff4d5a;
+        color: #ff6b75;
+        text-decoration: line-through;
+    }
+
+    .evidence-button.impossible::after {
+        content: "  ✕";
+        float: right;
+        font-weight: bold;
+    }
+
+    /* =========================
+       FANTÔMES
+    ========================= */
+
+    #ghost-list {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .ghost {
+        padding: 12px;
+        background: #222636;
+        border-radius: 8px;
+        border: 1px solid #30364a;
+        transition: 0.2s;
+    }
+
+    .ghost-name {
+        font-size: 17px;
+        font-weight: bold;
+    }
+
+    .ghost-evidence {
+        font-size: 12px;
+        color: #8e96b5;
+        margin-top: 6px;
+    }
+
+    .ghost.eliminated {
+        opacity: 0.20;
+        filter: grayscale(1);
+        text-decoration: line-through;
+    }
+
+    .ghost.possible {
+        opacity: 1;
+    }
+
+    /* =========================
+       FANTÔME SÉLECTIONNÉ
+    ========================= */
+
+    .ghost.selected {
+        border: 2px solid #36f9a5;
+        box-shadow: 0 0 12px rgba(54,249,165,0.25);
+    }
+
+    .select-ghost {
+        margin-top: 8px;
+        padding: 6px 10px;
+        border: none;
+        border-radius: 6px;
+        background: #30364a;
+        color: white;
+        cursor: pointer;
+    }
+
+    .select-ghost:hover {
+        background: #3b4561;
+    }
+
+    #selected-ghost {
+        margin-top: 15px;
+        text-align: center;
+        color: #36f9a5;
+        font-size: 18px;
+    }
+
+    /* Bouton reset */
+
+    #reset-evidence {
+        margin-top: 20px;
+        padding: 12px 20px;
+        background: #3a2024;
+        border: 1px solid #ff4d5a;
+        color: #ff6b75;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    #reset-evidence:hover {
+        background: #51282e;
+    }
+
+    @media (max-width: 800px) {
+        #evidence-layout {
+            grid-template-columns: 1fr;
+        }
+
+        #ghost-list {
+            grid-template-columns: 1fr;
+        }
+    }
 </style>
 </head>
 
 <body>
 
-<!-- SWITCH DE MODE -->
+<!-- =========================
+     SWITCH DE MODE
+========================= -->
+
 <div id="mode-switch">
     <button onclick="showEMF()">EMF</button>
     <button onclick="showThermo()">Thermomètre</button>
+    <button onclick="showEvidence()">Preuves</button>
 </div>
 
-<!-- MODE EMF -->
+
+<!-- =========================
+     MODE EMF
+========================= -->
+
 <div id="emf-mode">
+
     <div id="controls">
         <button onclick="setEMF(1)">EMF 1</button>
         <button onclick="setEMF(2)">EMF 2</button>
@@ -239,6 +456,7 @@
     </div>
 
     <div id="emf-zone">
+
         <div class="emf-body">
 
             <div class="emf-head">
@@ -254,83 +472,197 @@
                 <div id="emf-value" class="emf-value">0</div>
             </div>
 
-            <div class="emf-button"></div>
-
             <div class="emf-bottom-text">
                 EMF Reader • Phasmo IRL
             </div>
 
         </div>
+
     </div>
 </div>
 
-<!-- MODE THERMOMÈTRE -->
+
+<!-- =========================
+     MODE THERMOMÈTRE
+========================= -->
+
 <div id="thermo-mode">
+
     <div id="thermo-container">
 
-        <div id="last-room">Dernière requête : aucune</div>
+        <div id="last-room">
+            Dernière requête : aucune
+        </div>
 
-        <div id="thermo-display">-- °C</div>
+        <div id="thermo-display">
+            -- °C
+        </div>
 
-        <input id="temp-input" type="number" placeholder="Température" />
+        <input
+            id="temp-input"
+            type="number"
+            placeholder="Température"
+        />
 
-        <button onclick="sendTemperature()">Envoyer</button>
+        <button onclick="sendTemperature()">
+            Envoyer
+        </button>
 
         <div id="room-buttons">
             <button onclick="setRoom('Salon')">Salon</button>
             <button onclick="setRoom('Cuisine')">Cuisine</button>
-            <button onclick="setRoom('Salle à manger')">Salle à manger</button>
+            <button onclick="setRoom('Salle à manger')">
+                Salle à manger
+            </button>
             <button onclick="setRoom('Garage')">Garage</button>
         </div>
 
     </div>
+
 </div>
 
-<!-- Sons -->
+
+<!-- =========================
+     MODE PREUVES
+========================= -->
+
+<div id="evidence-mode">
+
+    <div id="evidence-container">
+
+        <div id="evidence-title">
+            📖 Livre des preuves
+        </div>
+
+        <div id="evidence-help">
+            Clique une fois pour confirmer une preuve,
+            une deuxième fois pour l'éliminer,
+            une troisième fois pour revenir à neutre.
+        </div>
+
+        <div id="evidence-layout">
+
+            <!-- PREUVES -->
+
+            <div class="evidence-panel">
+
+                <div class="panel-title">
+                    🔎 Preuves
+                </div>
+
+                <div id="evidence-list"></div>
+
+                <button id="reset-evidence" onclick="resetEvidence()">
+                    Réinitialiser les preuves
+                </button>
+
+            </div>
+
+
+            <!-- FANTÔMES -->
+
+            <div class="ghost-panel">
+
+                <div class="panel-title">
+                    👻 Fantômes possibles
+                </div>
+
+                <div id="ghost-list"></div>
+
+                <div id="selected-ghost">
+                    Aucun fantôme sélectionné
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     SONS
+========================= -->
+
 <audio id="sound1" src="sound1.mp3"></audio>
 <audio id="sound2" src="SonEMF/emf2.mp3"></audio>
 <audio id="sound3" src="SonEMF/emf3.mp3"></audio>
 <audio id="sound4" src="SonEMF/emf4.mp3"></audio>
 <audio id="sound5" src="SonEMF/emf5.mp3"></audio>
 
-<!-- Firebase -->
+
+<!-- =========================
+     FIREBASE
+========================= -->
+
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 
+
 <script>
-// CONFIG FIREBASE
+
+/* =========================
+   CONFIG FIREBASE
+========================= */
+
 const firebaseConfig = {
-  apiKey: "AIzaSyDOTNHQhMFBq0U07yD853fddh-KtiClObk",
-  authDomain: "phasmo-irl-654f9.firebaseapp.com",
-  databaseURL: "https://phasmo-irl-654f9-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "phasmo-irl-654f9",
-  storageBucket: "phasmo-irl-654f9.firebasestorage.app",
-  messagingSenderId: "902059581012",
-  appId: "1:902059581012:web:855445afb0a72182c397c1"
+    apiKey: "AIzaSyDOTNHQhMFBq0U07yD853fddh-KtiClObk",
+    authDomain: "phasmo-irl-654f9.firebaseapp.com",
+    databaseURL: "https://phasmo-irl-654f9-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "phasmo-irl-654f9",
+    storageBucket: "phasmo-irl-654f9.firebasestorage.app",
+    messagingSenderId: "902059581012",
+    appId: "1:902059581012:web:855445afb0a72182c397c1"
 };
 
 firebase.initializeApp(firebaseConfig);
+
 const db = firebase.database();
 
-/* MODE ACTUEL */
+
+/* =========================
+   MODE ACTUEL
+========================= */
+
 let isInEMFMode = true;
 
-/* SWITCH DE MODE */
+
+/* =========================
+   CHANGEMENT DE MODE
+========================= */
+
+function hideAllModes() {
+
+    document.getElementById("emf-mode").style.display = "none";
+
+    document.getElementById("thermo-mode").style.display = "none";
+
+    document.getElementById("evidence-mode").style.display = "none";
+}
+
+
 function showEMF() {
+
+    hideAllModes();
+
     isInEMFMode = true;
 
     document.getElementById("emf-mode").style.display = "flex";
-    document.getElementById("thermo-mode").style.display = "none";
 
     if (currentSound) {
-        currentSound.play().catch(()=>{});
+        currentSound.play().catch(() => {});
     }
 }
 
+
 function showThermo() {
+
+    hideAllModes();
+
     isInEMFMode = false;
 
-    document.getElementById("emf-mode").style.display = "none";
     document.getElementById("thermo-mode").style.display = "block";
 
     if (currentSound) {
@@ -339,70 +671,699 @@ function showThermo() {
     }
 }
 
-/* EMF */
-let currentSound = null;
 
-function setEMF(level) {
-    const unlock = new Audio();
-    unlock.play().catch(() => {});
-    db.ref("emfLevel").set(level);
-}
+function showEvidence() {
 
-db.ref("emfLevel").on("value", snapshot => {
-    const level = snapshot.val();
-    applyEMF(level);
-});
+    hideAllModes();
 
-function applyEMF(level) {
+    isInEMFMode = false;
 
-    // LEDs
-    for (let i = 1; i <= 5; i++) {
-        document.getElementById("led" + i).classList.remove("active");
-    }
-    for (let i = 1; i <= level; i++) {
-        document.getElementById("led" + i).classList.add("active");
-    }
+    document.getElementById("evidence-mode").style.display = "block";
 
-    document.getElementById("emf-value").textContent = level;
-
-    // Stopper le son actuel
     if (currentSound) {
         currentSound.pause();
         currentSound.currentTime = 0;
     }
+}
 
-    // 🔥 NE PAS JOUER LE SON SI ON EST DANS LE THERMOMÈTRE
+
+/* =========================
+   EMF
+========================= */
+
+let currentSound = null;
+
+
+function setEMF(level) {
+
+    const unlock = new Audio();
+
+    unlock.play().catch(() => {});
+
+    db.ref("emfLevel").set(level);
+}
+
+
+db.ref("emfLevel").on("value", snapshot => {
+
+    const level = snapshot.val();
+
+    applyEMF(level);
+
+});
+
+
+function applyEMF(level) {
+
+    if (!level) {
+        level = 0;
+    }
+
+    /* LEDs */
+
+    for (let i = 1; i <= 5; i++) {
+
+        document
+            .getElementById("led" + i)
+            .classList.remove("active");
+
+    }
+
+    for (let i = 1; i <= level; i++) {
+
+        document
+            .getElementById("led" + i)
+            .classList.add("active");
+
+    }
+
+    document.getElementById("emf-value").textContent = level;
+
+
+    /* Stopper le son actuel */
+
+    if (currentSound) {
+
+        currentSound.pause();
+
+        currentSound.currentTime = 0;
+
+    }
+
+
+    /* Pas de son hors EMF */
+
     if (!isInEMFMode) {
         return;
     }
 
-    // Jouer le son seulement si EMF > 0
+
+    /* Jouer le son */
+
     if (level > 0) {
-        currentSound = document.getElementById("sound" + level);
+
+        currentSound =
+            document.getElementById("sound" + level);
+
         currentSound.loop = true;
-        currentSound.play().catch(()=>{});
+
+        currentSound.play().catch(() => {});
+
     }
+
 }
 
-/* THERMOMÈTRE */
+
+/* =========================
+   THERMOMÈTRE
+========================= */
+
 function setRoom(room) {
+
     db.ref("lastRoom").set(room);
+
 }
+
 
 db.ref("lastRoom").on("value", snapshot => {
+
     const room = snapshot.val();
-    document.getElementById("last-room").textContent = "Dernière requête : " + room;
+
+    document.getElementById("last-room").textContent =
+        "Dernière requête : " + room;
+
 });
+
 
 function sendTemperature() {
-    const temp = document.getElementById("temp-input").value;
+
+    const temp =
+        document.getElementById("temp-input").value;
+
     db.ref("temperature").set(temp);
+
 }
 
+
 db.ref("temperature").on("value", snapshot => {
+
     const temp = snapshot.val();
-    document.getElementById("thermo-display").textContent = temp + " °C";
+
+    document.getElementById("thermo-display").textContent =
+        temp + " °C";
+
 });
+
+
+/* =========================================================
+   LIVRE DES PREUVES
+========================================================= */
+
+
+/*
+   État d'une preuve :
+
+   0 = neutre
+   1 = confirmée
+   2 = impossible
+*/
+
+const evidenceStates = {
+
+    "EMF 5": 0,
+
+    "Ultraviolet": 0,
+
+    "Températures glaciales": 0,
+
+    "Écriture fantomatique": 0,
+
+    "Orbe fantomatique": 0,
+
+    "DOTS": 0,
+
+    "Spirit Box": 0
+
+};
+
+
+/*
+   Liste des fantômes.
+
+   Chaque fantôme possède exactement
+   ses 3 preuves.
+*/
+
+const ghosts = {
+
+    "Banshee": [
+        "Ultraviolet",
+        "Orbe fantomatique",
+        "DOTS"
+    ],
+
+    "Démon": [
+        "Ultraviolet",
+        "Écriture fantomatique",
+        "Températures glaciales"
+    ],
+
+    "Deogen": [
+        "Spirit Box",
+        "Écriture fantomatique",
+        "DOTS"
+    ],
+
+    "Goryo": [
+        "EMF 5",
+        "Ultraviolet",
+        "DOTS"
+    ],
+
+    "Hantu": [
+        "Ultraviolet",
+        "Températures glaciales",
+        "Orbe fantomatique"
+    ],
+
+    "Jinn": [
+        "EMF 5",
+        "Ultraviolet",
+        "Températures glaciales"
+    ],
+
+    "Mimic": [
+        "Ultraviolet",
+        "Températures glaciales",
+        "Spirit Box"
+    ],
+
+    "Moroi": [
+        "Températures glaciales",
+        "Écriture fantomatique",
+        "Spirit Box"
+    ],
+
+    "Myling": [
+        "EMF 5",
+        "Ultraviolet",
+        "Écriture fantomatique"
+    ],
+
+    "Obake": [
+        "EMF 5",
+        "Ultraviolet",
+        "Orbe fantomatique"
+    ],
+
+    "Oni": [
+        "EMF 5",
+        "Températures glaciales",
+        "DOTS"
+    ],
+
+    "Onryo": [
+        "Températures glaciales",
+        "Orbe fantomatique",
+        "Spirit Box"
+    ],
+
+    "Phantom": [
+        "Ultraviolet",
+        "Orbe fantomatique",
+        "DOTS"
+    ],
+
+    "Poltergeist": [
+        "Ultraviolet",
+        "Écriture fantomatique",
+        "Spirit Box"
+    ],
+
+    "Raiju": [
+        "EMF 5",
+        "Orbe fantomatique",
+        "DOTS"
+    ],
+
+    "Revenant": [
+        "Températures glaciales",
+        "Écriture fantomatique",
+        "Orbe fantomatique"
+    ],
+
+    "Shade": [
+        "EMF 5",
+        "Écriture fantomatique",
+        "Températures glaciales"
+    ],
+
+    "Spirit": [
+        "EMF 5",
+        "Écriture fantomatique",
+        "Spirit Box"
+    ],
+
+    "Thaye": [
+        "Écriture fantomatique",
+        "Orbe fantomatique",
+        "DOTS"
+    ],
+
+    "The Twins": [
+        "EMF 5",
+        "Températures glaciales",
+        "Spirit Box"
+    ],
+
+    "Wraith": [
+        "EMF 5",
+        "DOTS",
+        "Spirit Box"
+    ],
+
+    "Yokai": [
+        "Orbe fantomatique",
+        "DOTS",
+        "Spirit Box"
+    ],
+
+    "Yurei": [
+        "Températures glaciales",
+        "Orbe fantomatique",
+        "DOTS"
+    ]
+
+};
+
+
+/* =========================
+   CRÉATION DES PREUVES
+========================= */
+
+function createEvidenceButtons() {
+
+    const container =
+        document.getElementById("evidence-list");
+
+    container.innerHTML = "";
+
+    for (const evidence in evidenceStates) {
+
+        const button =
+            document.createElement("button");
+
+        button.className = "evidence-button";
+
+        button.textContent = evidence;
+
+        button.onclick = function() {
+
+            cycleEvidence(evidence);
+
+        };
+
+        container.appendChild(button);
+
+    }
+
+}
+
+
+/* =========================
+   CYCLE DES PREUVES
+========================= */
+
+function cycleEvidence(evidence) {
+
+    let current =
+        evidenceStates[evidence];
+
+    /*
+       0 → 1
+       1 → 2
+       2 → 0
+    */
+
+    if (current === 0) {
+
+        evidenceStates[evidence] = 1;
+
+    } else if (current === 1) {
+
+        evidenceStates[evidence] = 2;
+
+    } else {
+
+        evidenceStates[evidence] = 0;
+
+    }
+
+
+    /*
+       Envoyer à Firebase
+    */
+
+    db.ref("evidenceStates").set(evidenceStates);
+
+}
+
+
+/* =========================
+   RÉCEPTION FIREBASE
+========================= */
+
+db.ref("evidenceStates").on("value", snapshot => {
+
+    const data = snapshot.val();
+
+    if (data) {
+
+        for (const evidence in evidenceStates) {
+
+            if (data[evidence] !== undefined) {
+
+                evidenceStates[evidence] =
+                    data[evidence];
+
+            }
+
+        }
+
+    }
+
+    updateEvidenceDisplay();
+
+});
+
+
+/* =========================
+   AFFICHAGE DES PREUVES
+========================= */
+
+function updateEvidenceDisplay() {
+
+    const buttons =
+        document.querySelectorAll(".evidence-button");
+
+    buttons.forEach(button => {
+
+        const evidence =
+            button.textContent;
+
+        button.classList.remove("confirmed");
+
+        button.classList.remove("impossible");
+
+
+        if (evidenceStates[evidence] === 1) {
+
+            button.classList.add("confirmed");
+
+        }
+
+
+        if (evidenceStates[evidence] === 2) {
+
+            button.classList.add("impossible");
+
+        }
+
+    });
+
+
+    updateGhosts();
+
+}
+
+
+/* =========================
+   FILTRAGE DES FANTÔMES
+========================= */
+
+function updateGhosts() {
+
+    const container =
+        document.getElementById("ghost-list");
+
+    container.innerHTML = "";
+
+
+    for (const ghostName in ghosts) {
+
+        const ghostEvidence =
+            ghosts[ghostName];
+
+
+        let eliminated = false;
+
+
+        /*
+           Si une preuve confirmée n'est
+           PAS dans le fantôme → éliminé
+        */
+
+        for (const evidence in evidenceStates) {
+
+            const state =
+                evidenceStates[evidence];
+
+
+            if (state === 1) {
+
+                if (!ghostEvidence.includes(evidence)) {
+
+                    eliminated = true;
+
+                }
+
+            }
+
+
+            /*
+               Si une preuve impossible
+               EST dans le fantôme → éliminé
+            */
+
+            if (state === 2) {
+
+                if (ghostEvidence.includes(evidence)) {
+
+                    eliminated = true;
+
+                }
+
+            }
+
+        }
+
+
+        const ghost =
+            document.createElement("div");
+
+        ghost.className =
+            "ghost " +
+            (eliminated ? "eliminated" : "possible");
+
+
+        const name =
+            document.createElement("div");
+
+        name.className = "ghost-name";
+
+        name.textContent = ghostName;
+
+
+        const evidenceText =
+            document.createElement("div");
+
+        evidenceText.className =
+            "ghost-evidence";
+
+        evidenceText.textContent =
+            ghostEvidence.join(" • ");
+
+
+        const selectButton =
+            document.createElement("button");
+
+        selectButton.className =
+            "select-ghost";
+
+        selectButton.textContent =
+            "Sélectionner";
+
+
+        selectButton.onclick = function() {
+
+            selectGhost(ghostName);
+
+        };
+
+
+        ghost.appendChild(name);
+
+        ghost.appendChild(evidenceText);
+
+        ghost.appendChild(selectButton);
+
+
+        container.appendChild(ghost);
+
+    }
+
+
+    updateSelectedGhost();
+
+}
+
+
+/* =========================
+   FANTÔME SÉLECTIONNÉ
+========================= */
+
+let selectedGhost = null;
+
+
+function selectGhost(ghostName) {
+
+    selectedGhost = ghostName;
+
+    db.ref("selectedGhost").set(ghostName);
+
+}
+
+
+db.ref("selectedGhost").on("value", snapshot => {
+
+    selectedGhost = snapshot.val();
+
+    updateSelectedGhost();
+
+});
+
+
+function updateSelectedGhost() {
+
+    const text =
+        document.getElementById("selected-ghost");
+
+
+    if (selectedGhost) {
+
+        text.textContent =
+            "👻 Fantôme sélectionné : " +
+            selectedGhost;
+
+    } else {
+
+        text.textContent =
+            "Aucun fantôme sélectionné";
+
+    }
+
+
+    document
+        .querySelectorAll(".ghost")
+        .forEach(element => {
+
+            element.classList.remove("selected");
+
+        });
+
+
+    if (selectedGhost) {
+
+        document
+            .querySelectorAll(".ghost")
+            .forEach(element => {
+
+                const name =
+                    element.querySelector(".ghost-name");
+
+                if (
+                    name &&
+                    name.textContent === selectedGhost
+                ) {
+
+                    element.classList.add("selected");
+
+                }
+
+            });
+
+    }
+
+}
+
+
+/* =========================
+   RESET
+========================= */
+
+function resetEvidence() {
+
+    const resetData = {};
+
+    for (const evidence in evidenceStates) {
+
+        resetData[evidence] = 0;
+
+    }
+
+    db.ref("evidenceStates").set(resetData);
+
+    db.ref("selectedGhost").remove();
+
+}
+
+
+/* =========================
+   INITIALISATION
+========================= */
+
+createEvidenceButtons();
+
 </script>
 
 </body>
