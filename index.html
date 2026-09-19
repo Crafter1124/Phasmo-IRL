@@ -2,440 +2,821 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Phasmo IRL • EMF • Thermomètre • Preuves</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phasmo IRL</title>
 
 <style>
 
-    body {
-        background: #0a0a0d;
-        color: white;
-        font-family: Arial, sans-serif;
-        height: 100vh;
-        margin: 0;
-        overflow: hidden;
-        position: relative;
-    }
+/* =========================================================
+   GLOBAL
+========================================================= */
 
-    /* =========================
-       BOUTONS DE MODE
-    ========================= */
+* {
+    box-sizing: border-box;
+}
 
-    #mode-switch {
-        position: fixed;
-        bottom: 20px;
-        left: 20px;
-        display: flex;
-        gap: 10px;
-        z-index: 9999;
-        flex-wrap: wrap;
-    }
-
-    #mode-switch button {
-        padding: 10px 15px;
-        background: #222636;
-        color: white;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        font-size: 16px;
-    }
-
-    #mode-switch button:hover {
-        background: #2f3650;
-    }
+body {
+    margin: 0;
+    background: #08090c;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    overflow: hidden;
+}
 
 
-    /* =========================
-       EMF
-    ========================= */
+/* =========================================================
+   MENU DES MODES
+========================================================= */
 
-    #emf-mode {
-        position: absolute;
-        inset: 0;
-        display: flex;
-    }
+#mode-switch {
+    position: fixed;
+    bottom: 18px;
+    left: 18px;
+    display: flex;
+    gap: 10px;
+    z-index: 9999;
+}
+
+#mode-switch button {
+    padding: 10px 16px;
+    background: #202536;
+    color: white;
+    border: 1px solid #30364b;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+    transition: 0.15s;
+}
+
+#mode-switch button:hover {
+    background: #2b3248;
+}
+
+
+/* =========================================================
+   EMF
+========================================================= */
+
+#emf-mode {
+    position: absolute;
+    inset: 0;
+    display: flex;
+}
+
+#controls {
+    width: 220px;
+    padding: 20px;
+    background: #101219;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    box-shadow: 0 0 20px #000;
+}
+
+#controls button {
+    padding: 12px;
+    font-size: 18px;
+    background: #202536;
+    color: white;
+    border: 1px solid #30364b;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+#controls button:hover {
+    background: #2b3248;
+}
+
+#emf-zone {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.emf-body {
+    width: 240px;
+    height: 480px;
+    background: #191d27;
+    border-radius: 30px;
+    position: relative;
+    border: 3px solid #30364a;
+    box-shadow: 0 0 30px rgba(0,0,0,0.8);
+}
+
+.emf-head {
+    position: absolute;
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 170px;
+    height: 75px;
+    background: #0e1118;
+    border-radius: 15px;
+    border: 3px solid #2b3144;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+}
+
+.emf-led {
+    width: 24px;
+    height: 50px;
+    border-radius: 8px;
+    background: #333;
+    opacity: 0.15;
+    transition: 0.2s;
+}
+
+.emf-led.active {
+    opacity: 1;
+    box-shadow: 0 0 10px currentColor;
+}
+
+#led1 {
+    background: #00ff00;
+}
+
+#led2 {
+    background: #66ff00;
+}
+
+#led3 {
+    background: #ffff00;
+}
+
+#led4 {
+    background: #ff9900;
+}
+
+#led5 {
+    background: #ff0000;
+}
+
+.emf-screen {
+    position: absolute;
+    top: 140px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 170px;
+    height: 80px;
+    background: #10131d;
+    border-radius: 12px;
+    border: 2px solid #262c3f;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.emf-label {
+    font-size: 14px;
+    color: #9fa6c7;
+    margin-bottom: 5px;
+}
+
+.emf-value {
+    font-size: 32px;
+    letter-spacing: 2px;
+    color: #36f9a5;
+}
+
+.emf-bottom-text {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    text-align: center;
+    font-size: 12px;
+    color: #70789a;
+}
+
+
+/* =========================================================
+   THERMOMÈTRE
+========================================================= */
+
+#thermo-mode {
+    position: absolute;
+    inset: 0;
+    display: none;
+    overflow-y: auto;
+}
+
+#thermo-container {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 20px 100px;
+}
+
+
+/* -------------------------
+   TITRE
+------------------------- */
+
+#thermo-title {
+    font-size: 26px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    color: #d8dced;
+    margin-bottom: 25px;
+}
+
+
+/* -------------------------
+   APPAREIL
+------------------------- */
+
+.thermo-device {
+    width: 280px;
+    height: 470px;
+    background:
+        linear-gradient(
+            145deg,
+            #292e3a,
+            #151922 55%,
+            #0d1016
+        );
+
+    border-radius: 35px;
+    border: 3px solid #343b4c;
+
+    box-shadow:
+        inset 0 0 20px rgba(255,255,255,0.03),
+        0 20px 50px rgba(0,0,0,0.7);
+
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+/* -------------------------
+   HAUT APPAREIL
+------------------------- */
+
+.thermo-top {
+    position: absolute;
+    top: 18px;
+    width: 90px;
+    height: 8px;
+    border-radius: 10px;
+    background: #080a0e;
+}
+
+
+/* -------------------------
+   CAPTEUR
+------------------------- */
+
+.thermo-sensor {
+    position: absolute;
+    top: 50px;
+
+    width: 95px;
+    height: 55px;
+
+    background: #090b10;
+
+    border-radius: 20px 20px 8px 8px;
+
+    border: 2px solid #303646;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.thermo-sensor::after {
+    content: "";
+    width: 25px;
+    height: 25px;
+
+    background: #171c26;
+
+    border-radius: 50%;
+
+    border: 3px solid #3c4354;
+
+    box-shadow:
+        inset 0 0 8px #000;
+}
+
+
+/* -------------------------
+   ÉCRAN
+------------------------- */
+
+.thermo-screen {
+    position: absolute;
+
+    top: 135px;
+
+    width: 220px;
+    height: 125px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #080c10,
+            #0c1115
+        );
+
+    border-radius: 12px;
+
+    border: 3px solid #272e3c;
+
+    box-shadow:
+        inset 0 0 20px rgba(0,0,0,0.8),
+        0 0 10px rgba(0,0,0,0.5);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* petit texte écran */
+
+#thermo-screen-label {
+    font-size: 12px;
+    color: #687084;
+    letter-spacing: 2px;
+    margin-bottom: 4px;
+}
+
+
+/* température */
+
+#thermo-display {
+    font-family: "Courier New", monospace;
+    font-size: 55px;
+    font-weight: bold;
+    letter-spacing: 2px;
+
+    color: #36f9a5;
+
+    text-shadow:
+        0 0 8px rgba(54,249,165,0.25);
+
+    transition: 0.2s;
+}
+
+
+/* températures */
+
+#thermo-display.cold {
+    color: #66c7ff;
+    text-shadow:
+        0 0 10px rgba(102,199,255,0.35);
+}
+
+#thermo-display.freezing {
+    color: #ffffff;
+    text-shadow:
+        0 0 12px rgba(255,255,255,0.4);
+}
+
+#thermo-display.hot {
+    color: #ffad5c;
+    text-shadow:
+        0 0 10px rgba(255,173,92,0.3);
+}
+
+
+/* -------------------------
+   UNITÉ
+------------------------- */
+
+.thermo-unit {
+    position: absolute;
+    top: 278px;
+
+    color: #596175;
+
+    font-size: 11px;
+
+    letter-spacing: 3px;
+}
+
+
+/* -------------------------
+   INFO PIÈCE
+------------------------- */
+
+.thermo-room-display {
+    position: absolute;
+
+    top: 315px;
+
+    width: 190px;
+
+    text-align: center;
+
+    color: #8d95a9;
+
+    font-size: 13px;
+}
+
+
+/* -------------------------
+   DÉCOR APPAREIL
+------------------------- */
+
+.thermo-line {
+    position: absolute;
+
+    bottom: 65px;
+
+    width: 160px;
+    height: 2px;
+
+    background: #303746;
+}
+
+.thermo-brand {
+    position: absolute;
+
+    bottom: 35px;
+
+    font-size: 12px;
+
+    letter-spacing: 4px;
+
+    color: #50586b;
+}
+
+
+/* =========================================================
+   BOUTONS PIÈCES
+========================================================= */
+
+#room-section {
+    margin-top: 30px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#room-label {
+    color: #70788e;
+    font-size: 13px;
+    margin-bottom: 12px;
+    letter-spacing: 1px;
+}
+
+#room-buttons {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 600px;
+}
+
+.room-button {
+    min-width: 105px;
+
+    padding: 12px 16px;
+
+    background: #202536;
+
+    color: #e7eaf3;
+
+    border: 1px solid #30364b;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    font-size: 15px;
+
+    transition: 0.15s;
+}
+
+.room-button:hover {
+    background: #2b3248;
+}
+
+.room-button.active {
+    background: #30384f;
+    border-color: #596681;
+}
+
+
+/* =========================================================
+   ENVOI TEMPÉRATURE
+========================================================= */
+
+#temperature-controls {
+    margin-top: 20px;
+
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+#temp-input {
+    width: 130px;
+
+    padding: 11px;
+
+    background: #171b25;
+
+    color: white;
+
+    border: 1px solid #30364b;
+
+    border-radius: 8px;
+
+    font-size: 16px;
+
+    text-align: center;
+
+    outline: none;
+}
+
+#temp-input:focus {
+    border-color: #596681;
+}
+
+#send-temperature {
+    padding: 11px 16px;
+
+    background: #202536;
+
+    color: white;
+
+    border: 1px solid #30364b;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    font-size: 15px;
+}
+
+#send-temperature:hover {
+    background: #2b3248;
+}
+
+
+/* =========================================================
+   PREUVES
+========================================================= */
+
+#evidence-mode {
+    position: absolute;
+    inset: 0;
+    display: none;
+    padding: 25px;
+    overflow-y: auto;
+    padding-bottom: 90px;
+}
+
+#evidence-container {
+    max-width: 1200px;
+    margin: auto;
+}
+
+#evidence-title {
+    text-align: center;
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+#evidence-help {
+    text-align: center;
+    color: #9fa6c7;
+    margin-bottom: 25px;
+}
+
+#evidence-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+}
+
+.evidence-panel,
+.ghost-panel {
+    background: #11131b;
+    border: 1px solid #292e40;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 0 15px #000;
+}
+
+.panel-title {
+    font-size: 22px;
+    margin-bottom: 15px;
+}
+
+#evidence-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.evidence-button {
+    width: 100%;
+    padding: 15px;
+    border-radius: 8px;
+    border: 2px solid #30364a;
+    background: #222636;
+    color: white;
+    cursor: pointer;
+    text-align: left;
+    font-size: 17px;
+}
+
+.evidence-button:hover {
+    background: #2f3650;
+}
+
+.evidence-button.confirmed {
+    background: #143d29;
+    border-color: #36f9a5;
+    color: #36f9a5;
+}
+
+.evidence-button.confirmed::after {
+    content: "✓";
+    float: right;
+    font-weight: bold;
+}
+
+.evidence-button.impossible {
+    background: #351b20;
+    border-color: #ff4d5a;
+    color: #ff6b75;
+    text-decoration: line-through;
+}
+
+.evidence-button.impossible::after {
+    content: "✕";
+    float: right;
+    font-weight: bold;
+}
+
+
+/* =========================================================
+   FANTÔMES
+========================================================= */
+
+#ghost-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.ghost {
+    padding: 12px;
+    background: #222636;
+    border-radius: 8px;
+    border: 1px solid #30364a;
+    transition: 0.2s;
+}
+
+.ghost-name {
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.ghost-evidence {
+    font-size: 12px;
+    color: #8e96b5;
+    margin-top: 6px;
+    line-height: 1.5;
+}
+
+.ghost.eliminated {
+    opacity: 0.20;
+    filter: grayscale(1);
+    text-decoration: line-through;
+}
+
+.ghost.possible {
+    opacity: 1;
+}
+
+.ghost.selected {
+    border: 2px solid #36f9a5;
+    box-shadow: 0 0 12px rgba(54,249,165,0.25);
+}
+
+.select-ghost {
+    margin-top: 8px;
+    padding: 6px 10px;
+    border: none;
+    border-radius: 6px;
+    background: #30364a;
+    color: white;
+    cursor: pointer;
+}
+
+.select-ghost:hover {
+    background: #3b4561;
+}
+
+#selected-ghost {
+    margin-top: 15px;
+    text-align: center;
+    color: #36f9a5;
+    font-size: 18px;
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+#reset-evidence {
+    margin-top: 20px;
+    padding: 12px 20px;
+
+    background: #3a2024;
+
+    border: 1px solid #ff4d5a;
+
+    color: #ff6b75;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    font-size: 16px;
+}
+
+#reset-evidence:hover {
+    background: #51282e;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 800px) {
 
     #controls {
-        width: 220px;
-        padding: 20px;
-        background: #11131b;
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        box-shadow: 0 0 15px #000;
+        width: 150px;
     }
 
-    #controls button {
-        padding: 12px;
-        font-size: 18px;
-        background: #222636;
-        color: white;
-        border: none;
-        cursor: pointer;
-        border-radius: 8px;
-        transition: 0.15s;
-    }
-
-    #controls button:hover {
-        background: #2f3650;
-        transform: translateY(-1px);
-    }
-
-    #emf-zone {
-        flex: 1;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .emf-body {
-        width: 240px;
-        height: 480px;
-        background: #1b1f2b;
-        border-radius: 30px;
-        position: relative;
-        box-shadow: 0 0 25px rgba(0,0,0,0.8);
-        border: 3px solid #30364a;
-    }
-
-    .emf-head {
-        position: absolute;
-        top: 30px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 170px;
-        height: 75px;
-        background: #0f121b;
-        border-radius: 15px;
-        border: 3px solid #2b3144;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 10px 15px;
-    }
-
-    .emf-led {
-        width: 24px;
-        height: 50px;
-        border-radius: 8px;
-        background: #333;
-        opacity: 0.15;
-        transition: 0.2s;
-    }
-
-    .emf-led.active {
-        opacity: 1;
-        box-shadow: 0 0 10px currentColor;
-    }
-
-    #led1 { background: #00FF00; }
-    #led2 { background: #66FF00; }
-    #led3 { background: #FFFF00; }
-    #led4 { background: #FF9900; }
-    #led5 { background: #FF0000; }
-
-    .emf-screen {
-        position: absolute;
-        top: 140px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 170px;
-        height: 80px;
-        background: #10131d;
-        border-radius: 12px;
-        border: 2px solid #262c3f;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .emf-label {
-        font-size: 14px;
-        color: #9fa6c7;
-        margin-bottom: 5px;
-    }
-
-    .emf-value {
-        font-size: 32px;
-        letter-spacing: 2px;
-        color: #36f9a5;
-    }
-
-    .emf-bottom-text {
-        position: absolute;
-        bottom: 20px;
-        width: 100%;
-        text-align: center;
-        font-size: 12px;
-        color: #70789a;
-    }
-
-
-    /* =========================
-       THERMOMÈTRE
-    ========================= */
-
-    #thermo-mode {
-        position: absolute;
-        inset: 0;
-        display: none;
-        padding: 20px;
-    }
-
-    #thermo-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100%;
-        flex-direction: column;
-        gap: 20px;
-    }
-
-    #thermo-display {
-        font-size: 60px;
-        color: #36f9a5;
-        margin-bottom: 20px;
-    }
-
-    #room-buttons button {
-        padding: 10px 15px;
-        background: #222636;
-        color: white;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        font-size: 18px;
-        margin: 5px;
-    }
-
-    #room-buttons button:hover {
-        background: #2f3650;
-    }
-
-    #last-room {
-        font-size: 20px;
-        color: #9fa6c7;
-    }
-
-    #temp-input {
-        padding: 10px;
-        font-size: 20px;
-        width: 120px;
-        text-align: center;
-        border-radius: 8px;
-        border: none;
-        background: #222636;
-        color: white;
-    }
-
-
-    /* =========================
-       PREUVES
-    ========================= */
-
-    #evidence-mode {
-        position: absolute;
-        inset: 0;
-        display: none;
-        padding: 25px;
-        overflow-y: auto;
-        box-sizing: border-box;
-    }
-
-    #evidence-container {
-        max-width: 1200px;
-        margin: auto;
-    }
-
-    #evidence-title {
-        text-align: center;
-        font-size: 32px;
-        margin-bottom: 10px;
-    }
-
-    #evidence-help {
-        text-align: center;
-        color: #9fa6c7;
-        margin-bottom: 25px;
+    .thermo-device {
+        transform: scale(0.85);
+        margin-top: -20px;
+        margin-bottom: -50px;
     }
 
     #evidence-layout {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 25px;
+        grid-template-columns: 1fr;
     }
-
-    .evidence-panel,
-    .ghost-panel {
-        background: #11131b;
-        border: 1px solid #292e40;
-        border-radius: 12px;
-        padding: 20px;
-        box-shadow: 0 0 15px #000;
-    }
-
-    .panel-title {
-        font-size: 22px;
-        margin-bottom: 15px;
-    }
-
-
-    /* =========================
-       PREUVES
-    ========================= */
-
-    #evidence-list {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .evidence-button {
-        width: 100%;
-        padding: 15px;
-        border-radius: 8px;
-        border: 2px solid #30364a;
-        background: #222636;
-        color: white;
-        cursor: pointer;
-        text-align: left;
-        font-size: 17px;
-        transition: 0.15s;
-    }
-
-    .evidence-button:hover {
-        background: #2f3650;
-    }
-
-    .evidence-button.confirmed {
-        background: #143d29;
-        border-color: #36f9a5;
-        color: #36f9a5;
-    }
-
-    .evidence-button.confirmed::after {
-        content: "✓";
-        float: right;
-        font-weight: bold;
-    }
-
-    .evidence-button.impossible {
-        background: #351b20;
-        border-color: #ff4d5a;
-        color: #ff6b75;
-        text-decoration: line-through;
-    }
-
-    .evidence-button.impossible::after {
-        content: "✕";
-        float: right;
-        font-weight: bold;
-    }
-
-
-    /* =========================
-       FANTÔMES
-    ========================= */
 
     #ghost-list {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
+        grid-template-columns: 1fr;
     }
 
-    .ghost {
-        padding: 12px;
-        background: #222636;
-        border-radius: 8px;
-        border: 1px solid #30364a;
-        transition: 0.2s;
+}
+
+@media (max-width: 550px) {
+
+    #mode-switch {
+        left: 8px;
+        bottom: 8px;
+        gap: 5px;
     }
 
-    .ghost-name {
-        font-size: 17px;
-        font-weight: bold;
-    }
-
-    .ghost-evidence {
+    #mode-switch button {
         font-size: 12px;
-        color: #8e96b5;
-        margin-top: 6px;
-        line-height: 1.5;
+        padding: 8px 10px;
     }
 
-    .ghost.eliminated {
-        opacity: 0.20;
-        filter: grayscale(1);
-        text-decoration: line-through;
+    #thermo-container {
+        justify-content: flex-start;
+        padding-top: 30px;
     }
 
-    .ghost.possible {
-        opacity: 1;
+    #thermo-title {
+        font-size: 21px;
     }
 
-    .ghost.selected {
-        border: 2px solid #36f9a5;
-        box-shadow: 0 0 12px rgba(54,249,165,0.25);
+    .thermo-device {
+        transform: scale(0.70);
+        margin-top: -50px;
+        margin-bottom: -100px;
     }
 
-    .select-ghost {
-        margin-top: 8px;
-        padding: 6px 10px;
-        border: none;
-        border-radius: 6px;
-        background: #30364a;
-        color: white;
-        cursor: pointer;
+    #temperature-controls {
+        flex-direction: column;
     }
 
-    .select-ghost:hover {
-        background: #3b4561;
-    }
-
-    #selected-ghost {
-        margin-top: 15px;
-        text-align: center;
-        color: #36f9a5;
-        font-size: 18px;
-    }
-
-
-    /* =========================
-       RESET
-    ========================= */
-
-    #reset-evidence {
-        margin-top: 20px;
-        padding: 12px 20px;
-        background: #3a2024;
-        border: 1px solid #ff4d5a;
-        color: #ff6b75;
-        border-radius: 8px;
-        cursor: pointer;
-        font-size: 16px;
-    }
-
-    #reset-evidence:hover {
-        background: #51282e;
-    }
-
-
-    /* =========================
-       MOBILE
-    ========================= */
-
-    @media (max-width: 800px) {
-
-        #evidence-layout {
-            grid-template-columns: 1fr;
-        }
-
-        #ghost-list {
-            grid-template-columns: 1fr;
-        }
-
-    }
+}
 
 </style>
 </head>
@@ -443,9 +824,9 @@
 <body>
 
 
-<!-- =========================
+<!-- =========================================================
      MENU
-========================= -->
+========================================================= -->
 
 <div id="mode-switch">
 
@@ -464,9 +845,9 @@
 </div>
 
 
-<!-- =========================
+<!-- =========================================================
      EMF
-========================= -->
+========================================================= -->
 
 <div id="emf-mode">
 
@@ -520,49 +901,125 @@
 </div>
 
 
-<!-- =========================
+<!-- =========================================================
      THERMOMÈTRE
-========================= -->
+========================================================= -->
 
 <div id="thermo-mode">
 
     <div id="thermo-container">
 
-        <div id="last-room">
-            Dernière requête : aucune
+        <div id="thermo-title">
+            THERMOMÈTRE
         </div>
 
-        <div id="thermo-display">
-            -- °C
+
+        <!-- APPAREIL -->
+
+        <div class="thermo-device">
+
+            <div class="thermo-top"></div>
+
+
+            <div class="thermo-sensor"></div>
+
+
+            <div class="thermo-screen">
+
+                <div id="thermo-screen-label">
+                    TEMPERATURE
+                </div>
+
+                <div id="thermo-display">
+                    --.-°
+                </div>
+
+            </div>
+
+
+            <div class="thermo-unit">
+                CELSIUS
+            </div>
+
+
+            <div
+                id="thermo-room-display"
+                class="thermo-room-display"
+            >
+                Aucune pièce sélectionnée
+            </div>
+
+
+            <div class="thermo-line"></div>
+
+
+            <div class="thermo-brand">
+                PHASMO
+            </div>
+
         </div>
 
-        <input
-            id="temp-input"
-            type="number"
-            placeholder="Température"
-        >
 
-        <button onclick="sendTemperature()">
-            Envoyer
-        </button>
+        <!-- PIÈCES -->
 
-        <div id="room-buttons">
+        <div id="room-section">
 
-            <button onclick="setRoom('Salon')">
-                Salon
-            </button>
+            <div id="room-label">
+                PIÈCE ACTUELLE
+            </div>
 
-            <button onclick="setRoom('Cuisine')">
-                Cuisine
-            </button>
+            <div id="room-buttons">
 
-            <button onclick="setRoom('Salle à manger')">
-                Salle à manger
-            </button>
+                <button
+                    class="room-button"
+                    onclick="setRoom('Salon')"
+                >
+                    Salon
+                </button>
 
-            <button onclick="setRoom('Garage')">
-                Garage
-            </button>
+                <button
+                    class="room-button"
+                    onclick="setRoom('Cuisine')"
+                >
+                    Cuisine
+                </button>
+
+                <button
+                    class="room-button"
+                    onclick="setRoom('Salle à manger')"
+                >
+                    Salle à manger
+                </button>
+
+                <button
+                    class="room-button"
+                    onclick="setRoom('Garage')"
+                >
+                    Garage
+                </button>
+
+            </div>
+
+
+            <!-- ENVOI TEMPÉRATURE -->
+
+            <div id="temperature-controls">
+
+                <input
+                    id="temp-input"
+                    type="number"
+                    step="0.1"
+                    placeholder="Température"
+                >
+
+                <button
+                    id="send-temperature"
+                    onclick="sendTemperature()"
+                >
+                    Envoyer
+                </button>
+
+            </div>
 
         </div>
 
@@ -571,9 +1028,9 @@
 </div>
 
 
-<!-- =========================
+<!-- =========================================================
      PREUVES
-========================= -->
+========================================================= -->
 
 <div id="evidence-mode">
 
@@ -584,16 +1041,13 @@
         </div>
 
         <div id="evidence-help">
-            Clique une fois pour confirmer une preuve,
-            une deuxième fois pour l'éliminer,
-            une troisième fois pour revenir à neutre.
+            Clique une fois pour confirmer, une deuxième fois
+            pour éliminer et une troisième fois pour réinitialiser.
         </div>
 
 
         <div id="evidence-layout">
 
-
-            <!-- PREUVES -->
 
             <div class="evidence-panel">
 
@@ -612,8 +1066,6 @@
 
             </div>
 
-
-            <!-- FANTÔMES -->
 
             <div class="ghost-panel">
 
@@ -636,9 +1088,9 @@
 </div>
 
 
-<!-- =========================
-     SONS
-========================= -->
+<!-- =========================================================
+     SONS EMF
+========================================================= -->
 
 <audio id="sound1" src="sound1.mp3"></audio>
 <audio id="sound2" src="SonEMF/emf2.mp3"></audio>
@@ -647,9 +1099,9 @@
 <audio id="sound5" src="SonEMF/emf5.mp3"></audio>
 
 
-<!-- =========================
+<!-- =========================================================
      FIREBASE
-========================= -->
+========================================================= -->
 
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
@@ -658,12 +1110,13 @@
 <script>
 
 /* =========================================================
-   FIREBASE
+   FIREBASE CONFIG
 ========================================================= */
 
 const firebaseConfig = {
 
-    apiKey: "AIzaSyDOTNHQhMFBq0U07yD853fddh-KtiClObk",
+    apiKey:
+        "AIzaSyDOTNHQhMFBq0U07yD853fddh-KtiClObk",
 
     authDomain:
         "phasmo-irl-654f9.firebaseapp.com",
@@ -692,10 +1145,12 @@ const db = firebase.database();
 
 
 /* =========================================================
-   MODES
+   CHANGEMENT DE MODE
 ========================================================= */
 
 let isInEMFMode = true;
+
+let currentSound = null;
 
 
 function hideAllModes() {
@@ -712,6 +1167,21 @@ function hideAllModes() {
 }
 
 
+function stopEMFSound() {
+
+    if (currentSound) {
+
+        currentSound.pause();
+
+        currentSound.currentTime = 0;
+
+        currentSound = null;
+
+    }
+
+}
+
+
 function showEMF() {
 
     hideAllModes();
@@ -721,11 +1191,10 @@ function showEMF() {
     document.getElementById("emf-mode").style.display =
         "flex";
 
-    if (currentSound) {
+    const level =
+        document.getElementById("emf-value").textContent;
 
-        currentSound.play().catch(() => {});
-
-    }
+    applyEMF(parseInt(level) || 0);
 
 }
 
@@ -736,16 +1205,10 @@ function showThermo() {
 
     isInEMFMode = false;
 
+    stopEMFSound();
+
     document.getElementById("thermo-mode").style.display =
         "block";
-
-    if (currentSound) {
-
-        currentSound.pause();
-
-        currentSound.currentTime = 0;
-
-    }
 
 }
 
@@ -756,16 +1219,10 @@ function showEvidence() {
 
     isInEMFMode = false;
 
+    stopEMFSound();
+
     document.getElementById("evidence-mode").style.display =
         "block";
-
-    if (currentSound) {
-
-        currentSound.pause();
-
-        currentSound.currentTime = 0;
-
-    }
 
 }
 
@@ -774,14 +1231,7 @@ function showEvidence() {
    EMF
 ========================================================= */
 
-let currentSound = null;
-
-
 function setEMF(level) {
-
-    const unlock = new Audio();
-
-    unlock.play().catch(() => {});
 
     db.ref("emfLevel").set(level);
 
@@ -790,7 +1240,8 @@ function setEMF(level) {
 
 db.ref("emfLevel").on("value", snapshot => {
 
-    const level = snapshot.val();
+    const level =
+        snapshot.val() || 0;
 
     applyEMF(level);
 
@@ -799,8 +1250,14 @@ db.ref("emfLevel").on("value", snapshot => {
 
 function applyEMF(level) {
 
-    if (!level) {
+    level = parseInt(level) || 0;
+
+    if (level < 0) {
         level = 0;
+    }
+
+    if (level > 5) {
+        level = 5;
     }
 
 
@@ -826,13 +1283,7 @@ function applyEMF(level) {
         level;
 
 
-    if (currentSound) {
-
-        currentSound.pause();
-
-        currentSound.currentTime = 0;
-
-    }
+    stopEMFSound();
 
 
     if (!isInEMFMode) {
@@ -865,34 +1316,188 @@ function setRoom(room) {
 }
 
 
+/* réception pièce */
+
 db.ref("lastRoom").on("value", snapshot => {
 
-    const room = snapshot.val();
+    const room =
+        snapshot.val();
 
-    document.getElementById("last-room").textContent =
-        "Dernière requête : " + room;
+
+    const roomDisplay =
+        document.getElementById(
+            "thermo-room-display"
+        );
+
+
+    if (room) {
+
+        roomDisplay.textContent =
+            room;
+
+    }
+
+    else {
+
+        roomDisplay.textContent =
+            "Aucune pièce sélectionnée";
+
+    }
+
+
+    document
+        .querySelectorAll(".room-button")
+        .forEach(button => {
+
+            button.classList.remove("active");
+
+            if (button.textContent.trim() === room) {
+
+                button.classList.add("active");
+
+            }
+
+        });
 
 });
 
 
+/* envoi température */
+
 function sendTemperature() {
 
-    const temp =
-        document.getElementById("temp-input").value;
+    const input =
+        document.getElementById("temp-input");
+
+    let temp =
+        parseFloat(input.value);
+
+
+    if (!Number.isFinite(temp)) {
+        return;
+    }
+
+
+    /*
+       Limite de sécurité pour éviter
+       des valeurs absurdes.
+    */
+
+    temp =
+        Math.max(-100, Math.min(100, temp));
+
 
     db.ref("temperature").set(temp);
 
 }
 
 
+/* réception température */
+
 db.ref("temperature").on("value", snapshot => {
 
-    const temp = snapshot.val();
+    const temp =
+        snapshot.val();
 
-    document.getElementById("thermo-display").textContent =
-        temp + " °C";
+
+    if (
+        temp === null ||
+        temp === undefined ||
+        !Number.isFinite(Number(temp))
+    ) {
+
+        updateThermoDisplay(null);
+
+        return;
+
+    }
+
+
+    updateThermoDisplay(
+        Number(temp)
+    );
 
 });
+
+
+function updateThermoDisplay(temp) {
+
+    const display =
+        document.getElementById(
+            "thermo-display"
+        );
+
+
+    display.classList.remove("cold");
+    display.classList.remove("freezing");
+    display.classList.remove("hot");
+
+
+    if (temp === null) {
+
+        display.textContent =
+            "--.-°";
+
+        return;
+
+    }
+
+
+    /*
+       Affichage avec une décimale
+       uniquement lorsque nécessaire.
+    */
+
+    let formatted;
+
+    if (Number.isInteger(temp)) {
+
+        formatted =
+            temp.toString();
+
+    }
+
+    else {
+
+        formatted =
+            temp.toFixed(1);
+
+    }
+
+
+    display.textContent =
+        formatted + "°";
+
+
+    /*
+       Couleur selon température
+    */
+
+    if (temp <= 0) {
+
+        display.classList.add(
+            "freezing"
+        );
+
+    }
+
+    else if (temp <= 5) {
+
+        display.classList.add(
+            "cold"
+        );
+
+    }
+
+    else if (temp >= 25) {
+
+        display.classList.add(
+            "hot"
+        );
+
+    }
+
+}
 
 
 /* =========================================================
@@ -928,7 +1533,6 @@ const ghosts = {
 
     ],
 
-
     "Djinn": [
 
         "EMF 5",
@@ -936,7 +1540,6 @@ const ghosts = {
         "Températures glaciales"
 
     ],
-
 
     "Gallu": [
 
@@ -946,7 +1549,6 @@ const ghosts = {
 
     ],
 
-
     "Mimic": [
 
         "Ultraviolet",
@@ -954,7 +1556,6 @@ const ghosts = {
         "Spirit Box"
 
     ],
-
 
     "Moroi": [
 
@@ -964,7 +1565,6 @@ const ghosts = {
 
     ],
 
-
     "Myling": [
 
         "EMF 5",
@@ -972,7 +1572,6 @@ const ghosts = {
         "Écriture fantomatique"
 
     ],
-
 
     "Poltergeist": [
 
@@ -982,7 +1581,6 @@ const ghosts = {
 
     ],
 
-
     "Shade": [
 
         "EMF 5",
@@ -991,7 +1589,6 @@ const ghosts = {
 
     ],
 
-
     "Esprit": [
 
         "EMF 5",
@@ -999,7 +1596,6 @@ const ghosts = {
         "Spirit Box"
 
     ],
-
 
     "Les Jumeaux": [
 
@@ -1013,13 +1609,16 @@ const ghosts = {
 
 
 /* =========================================================
-   BOUTONS PREUVES
+   CRÉATION BOUTONS PREUVES
 ========================================================= */
 
 function createEvidenceButtons() {
 
     const container =
-        document.getElementById("evidence-list");
+        document.getElementById(
+            "evidence-list"
+        );
+
 
     container.innerHTML = "";
 
@@ -1029,18 +1628,21 @@ function createEvidenceButtons() {
         const button =
             document.createElement("button");
 
+
         button.className =
             "evidence-button";
+
 
         button.textContent =
             evidence;
 
 
-        button.onclick = function() {
+        button.onclick =
+            function() {
 
-            cycleEvidence(evidence);
+                cycleEvidence(evidence);
 
-        };
+            };
 
 
         container.appendChild(button);
@@ -1051,7 +1653,7 @@ function createEvidenceButtons() {
 
 
 /* =========================================================
-   CYCLE
+   CYCLE PREUVE
 ========================================================= */
 
 function cycleEvidence(evidence) {
@@ -1087,19 +1689,22 @@ function cycleEvidence(evidence) {
 
 
 /* =========================================================
-   FIREBASE PREUVES
+   SYNCHRO PREUVES
 ========================================================= */
 
 db.ref("evidenceStates").on("value", snapshot => {
 
-    const data = snapshot.val();
+    const data =
+        snapshot.val();
 
 
     if (data) {
 
         for (const evidence in evidenceStates) {
 
-            if (data[evidence] !== undefined) {
+            if (
+                data[evidence] !== undefined
+            ) {
 
                 evidenceStates[evidence] =
                     data[evidence];
@@ -1143,7 +1748,9 @@ function updateEvidenceDisplay() {
         );
 
 
-        if (evidenceStates[evidence] === 1) {
+        if (
+            evidenceStates[evidence] === 1
+        ) {
 
             button.classList.add(
                 "confirmed"
@@ -1152,7 +1759,9 @@ function updateEvidenceDisplay() {
         }
 
 
-        if (evidenceStates[evidence] === 2) {
+        if (
+            evidenceStates[evidence] === 2
+        ) {
 
             button.classList.add(
                 "impossible"
@@ -1175,7 +1784,10 @@ function updateEvidenceDisplay() {
 function updateGhosts() {
 
     const container =
-        document.getElementById("ghost-list");
+        document.getElementById(
+            "ghost-list"
+        );
+
 
     container.innerHTML = "";
 
@@ -1189,20 +1801,22 @@ function updateGhosts() {
         let eliminated = false;
 
 
-        for (const evidence in evidenceStates) {
+        for (
+            const evidence in evidenceStates
+        ) {
 
             const state =
                 evidenceStates[evidence];
 
 
-            /*
-               Preuve confirmée
-            */
+            /* preuve confirmée */
 
             if (state === 1) {
 
                 if (
-                    !ghostEvidence.includes(evidence)
+                    !ghostEvidence.includes(
+                        evidence
+                    )
                 ) {
 
                     eliminated = true;
@@ -1212,14 +1826,14 @@ function updateGhosts() {
             }
 
 
-            /*
-               Preuve impossible
-            */
+            /* preuve impossible */
 
             if (state === 2) {
 
                 if (
-                    ghostEvidence.includes(evidence)
+                    ghostEvidence.includes(
+                        evidence
+                    )
                 ) {
 
                     eliminated = true;
@@ -1230,8 +1844,6 @@ function updateGhosts() {
 
         }
 
-
-        /* Création */
 
         const ghost =
             document.createElement("div");
@@ -1279,19 +1891,27 @@ function updateGhosts() {
         selectButton.onclick =
             function() {
 
-                selectGhost(ghostName);
+                selectGhost(
+                    ghostName
+                );
 
             };
 
 
         ghost.appendChild(name);
 
-        ghost.appendChild(evidenceText);
+        ghost.appendChild(
+            evidenceText
+        );
 
-        ghost.appendChild(selectButton);
+        ghost.appendChild(
+            selectButton
+        );
 
 
-        container.appendChild(ghost);
+        container.appendChild(
+            ghost
+        );
 
     }
 
@@ -1302,7 +1922,7 @@ function updateGhosts() {
 
 
 /* =========================================================
-   SÉLECTION FANTÔME
+   FANTÔME SÉLECTIONNÉ
 ========================================================= */
 
 let selectedGhost = null;
@@ -1321,14 +1941,18 @@ function selectGhost(ghostName) {
 }
 
 
-db.ref("selectedGhost").on("value", snapshot => {
+db.ref("selectedGhost").on(
+    "value",
+    snapshot => {
 
-    selectedGhost =
-        snapshot.val();
+        selectedGhost =
+            snapshot.val();
 
-    updateSelectedGhost();
 
-});
+        updateSelectedGhost();
+
+    }
+);
 
 
 function updateSelectedGhost() {
@@ -1380,7 +2004,8 @@ function updateSelectedGhost() {
 
                 if (
                     name &&
-                    name.textContent === selectedGhost
+                    name.textContent ===
+                    selectedGhost
                 ) {
 
                     element.classList.add(
@@ -1397,7 +2022,7 @@ function updateSelectedGhost() {
 
 
 /* =========================================================
-   RESET
+   RESET PREUVES
 ========================================================= */
 
 function resetEvidence() {
@@ -1405,7 +2030,9 @@ function resetEvidence() {
     const resetData = {};
 
 
-    for (const evidence in evidenceStates) {
+    for (
+        const evidence in evidenceStates
+    ) {
 
         resetData[evidence] = 0;
 
@@ -1427,6 +2054,8 @@ function resetEvidence() {
 ========================================================= */
 
 createEvidenceButtons();
+
+updateThermoDisplay(null);
 
 </script>
 
