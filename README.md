@@ -1,5 +1,9 @@
 # Phasmo-IRL
 
+v2.8
+- Refonte compléte du thermomètre
+- Ajout de notification
+
 v2.5
 -Ajout de fantôme
 -Correction de bug
