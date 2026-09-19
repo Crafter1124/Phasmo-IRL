@@ -54,6 +54,84 @@ body {
 
 
 /* =========================================================
+   NOTIFICATION
+========================================================= */
+
+#room-notification {
+    position: fixed;
+
+    top: 22px;
+    right: 22px;
+
+    width: 320px;
+
+    background: #24200f;
+
+    border: 2px solid #f0c419;
+
+    border-radius: 10px;
+
+    padding: 14px 16px;
+
+    z-index: 99999;
+
+    box-shadow:
+        0 8px 30px rgba(0,0,0,0.55),
+        0 0 15px rgba(240,196,25,0.15);
+
+    display: none;
+
+    animation: notificationIn 0.25s ease-out;
+}
+
+#room-notification.show {
+    display: block;
+}
+
+.notification-title {
+    color: #f0c419;
+
+    font-size: 13px;
+
+    font-weight: bold;
+
+    letter-spacing: 1px;
+
+    margin-bottom: 5px;
+}
+
+.notification-room {
+    color: white;
+
+    font-size: 20px;
+
+    font-weight: bold;
+}
+
+.notification-icon {
+    float: left;
+
+    font-size: 25px;
+
+    margin-right: 10px;
+}
+
+@keyframes notificationIn {
+
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+}
+
+
+/* =========================================================
    EMF
 ========================================================= */
 
@@ -212,11 +290,6 @@ body {
     padding: 30px 20px 100px;
 }
 
-
-/* -------------------------
-   TITRE
-------------------------- */
-
 #thermo-title {
     font-size: 26px;
     font-weight: bold;
@@ -226,13 +299,14 @@ body {
 }
 
 
-/* -------------------------
-   APPAREIL
-------------------------- */
+/* =========================================================
+   APPAREIL THERMOMÈTRE
+========================================================= */
 
 .thermo-device {
     width: 280px;
     height: 470px;
+
     background:
         linear-gradient(
             145deg,
@@ -242,6 +316,7 @@ body {
         );
 
     border-radius: 35px;
+
     border: 3px solid #343b4c;
 
     box-shadow:
@@ -255,11 +330,6 @@ body {
     align-items: center;
 }
 
-
-/* -------------------------
-   HAUT APPAREIL
-------------------------- */
-
 .thermo-top {
     position: absolute;
     top: 18px;
@@ -268,11 +338,6 @@ body {
     border-radius: 10px;
     background: #080a0e;
 }
-
-
-/* -------------------------
-   CAPTEUR
-------------------------- */
 
 .thermo-sensor {
     position: absolute;
@@ -294,6 +359,7 @@ body {
 
 .thermo-sensor::after {
     content: "";
+
     width: 25px;
     height: 25px;
 
@@ -306,11 +372,6 @@ body {
     box-shadow:
         inset 0 0 8px #000;
 }
-
-
-/* -------------------------
-   ÉCRAN
-------------------------- */
 
 .thermo-screen {
     position: absolute;
@@ -341,9 +402,6 @@ body {
     align-items: center;
 }
 
-
-/* petit texte écran */
-
 #thermo-screen-label {
     font-size: 12px;
     color: #687084;
@@ -351,13 +409,13 @@ body {
     margin-bottom: 4px;
 }
 
-
-/* température */
-
 #thermo-display {
     font-family: "Courier New", monospace;
+
     font-size: 55px;
+
     font-weight: bold;
+
     letter-spacing: 2px;
 
     color: #36f9a5;
@@ -368,34 +426,30 @@ body {
     transition: 0.2s;
 }
 
-
-/* températures */
-
 #thermo-display.cold {
     color: #66c7ff;
+
     text-shadow:
         0 0 10px rgba(102,199,255,0.35);
 }
 
 #thermo-display.freezing {
     color: #ffffff;
+
     text-shadow:
         0 0 12px rgba(255,255,255,0.4);
 }
 
 #thermo-display.hot {
     color: #ffad5c;
+
     text-shadow:
         0 0 10px rgba(255,173,92,0.3);
 }
 
-
-/* -------------------------
-   UNITÉ
-------------------------- */
-
 .thermo-unit {
     position: absolute;
+
     top: 278px;
 
     color: #596175;
@@ -404,11 +458,6 @@ body {
 
     letter-spacing: 3px;
 }
-
-
-/* -------------------------
-   INFO PIÈCE
-------------------------- */
 
 .thermo-room-display {
     position: absolute;
@@ -423,11 +472,6 @@ body {
 
     font-size: 13px;
 }
-
-
-/* -------------------------
-   DÉCOR APPAREIL
-------------------------- */
 
 .thermo-line {
     position: absolute;
@@ -454,29 +498,38 @@ body {
 
 
 /* =========================================================
-   BOUTONS PIÈCES
+   PIÈCES
 ========================================================= */
 
 #room-section {
     margin-top: 30px;
 
     display: flex;
+
     flex-direction: column;
+
     align-items: center;
 }
 
 #room-label {
     color: #70788e;
+
     font-size: 13px;
+
     margin-bottom: 12px;
+
     letter-spacing: 1px;
 }
 
 #room-buttons {
     display: flex;
+
     gap: 8px;
+
     flex-wrap: wrap;
+
     justify-content: center;
+
     max-width: 600px;
 }
 
@@ -506,19 +559,22 @@ body {
 
 .room-button.active {
     background: #30384f;
+
     border-color: #596681;
 }
 
 
 /* =========================================================
-   ENVOI TEMPÉRATURE
+   TEMPÉRATURE
 ========================================================= */
 
 #temperature-controls {
     margin-top: 20px;
 
     display: flex;
+
     gap: 8px;
+
     align-items: center;
 }
 
@@ -599,39 +655,56 @@ body {
 
 #evidence-layout {
     display: grid;
+
     grid-template-columns: 1fr 1fr;
+
     gap: 25px;
 }
 
 .evidence-panel,
 .ghost-panel {
     background: #11131b;
+
     border: 1px solid #292e40;
+
     border-radius: 12px;
+
     padding: 20px;
+
     box-shadow: 0 0 15px #000;
 }
 
 .panel-title {
     font-size: 22px;
+
     margin-bottom: 15px;
 }
 
 #evidence-list {
     display: flex;
+
     flex-direction: column;
+
     gap: 10px;
 }
 
 .evidence-button {
     width: 100%;
+
     padding: 15px;
+
     border-radius: 8px;
+
     border: 2px solid #30364a;
+
     background: #222636;
+
     color: white;
+
     cursor: pointer;
+
     text-align: left;
+
     font-size: 17px;
 }
 
@@ -641,26 +714,35 @@ body {
 
 .evidence-button.confirmed {
     background: #143d29;
+
     border-color: #36f9a5;
+
     color: #36f9a5;
 }
 
 .evidence-button.confirmed::after {
     content: "✓";
+
     float: right;
+
     font-weight: bold;
 }
 
 .evidence-button.impossible {
     background: #351b20;
+
     border-color: #ff4d5a;
+
     color: #ff6b75;
+
     text-decoration: line-through;
 }
 
 .evidence-button.impossible::after {
     content: "✕";
+
     float: right;
+
     font-weight: bold;
 }
 
@@ -671,33 +753,45 @@ body {
 
 #ghost-list {
     display: grid;
+
     grid-template-columns: repeat(2, 1fr);
+
     gap: 10px;
 }
 
 .ghost {
     padding: 12px;
+
     background: #222636;
+
     border-radius: 8px;
+
     border: 1px solid #30364a;
+
     transition: 0.2s;
 }
 
 .ghost-name {
     font-size: 17px;
+
     font-weight: bold;
 }
 
 .ghost-evidence {
     font-size: 12px;
+
     color: #8e96b5;
+
     margin-top: 6px;
+
     line-height: 1.5;
 }
 
 .ghost.eliminated {
     opacity: 0.20;
+
     filter: grayscale(1);
+
     text-decoration: line-through;
 }
 
@@ -707,16 +801,24 @@ body {
 
 .ghost.selected {
     border: 2px solid #36f9a5;
-    box-shadow: 0 0 12px rgba(54,249,165,0.25);
+
+    box-shadow:
+        0 0 12px rgba(54,249,165,0.25);
 }
 
 .select-ghost {
     margin-top: 8px;
+
     padding: 6px 10px;
+
     border: none;
+
     border-radius: 6px;
+
     background: #30364a;
+
     color: white;
+
     cursor: pointer;
 }
 
@@ -726,8 +828,11 @@ body {
 
 #selected-ghost {
     margin-top: 15px;
+
     text-align: center;
+
     color: #36f9a5;
+
     font-size: 18px;
 }
 
@@ -738,6 +843,7 @@ body {
 
 #reset-evidence {
     margin-top: 20px;
+
     padding: 12px 20px;
 
     background: #3a2024;
@@ -770,7 +876,9 @@ body {
 
     .thermo-device {
         transform: scale(0.85);
+
         margin-top: -20px;
+
         margin-bottom: -50px;
     }
 
@@ -782,23 +890,36 @@ body {
         grid-template-columns: 1fr;
     }
 
+    #room-notification {
+        width: calc(100% - 30px);
+
+        right: 15px;
+
+        top: 15px;
+    }
+
 }
+
 
 @media (max-width: 550px) {
 
     #mode-switch {
         left: 8px;
+
         bottom: 8px;
+
         gap: 5px;
     }
 
     #mode-switch button {
         font-size: 12px;
+
         padding: 8px 10px;
     }
 
     #thermo-container {
         justify-content: flex-start;
+
         padding-top: 30px;
     }
 
@@ -808,7 +929,9 @@ body {
 
     .thermo-device {
         transform: scale(0.70);
+
         margin-top: -50px;
+
         margin-bottom: -100px;
     }
 
@@ -821,7 +944,32 @@ body {
 </style>
 </head>
 
+
 <body>
+
+
+<!-- =========================================================
+     NOTIFICATION PIÈCE
+========================================================= -->
+
+<div id="room-notification">
+
+    <div class="notification-icon">
+        🔔
+    </div>
+
+    <div class="notification-title">
+        DEMANDE DE PIÈCE
+    </div>
+
+    <div
+        id="notification-room"
+        class="notification-room"
+    >
+        SALON
+    </div>
+
+</div>
 
 
 <!-- =========================================================
@@ -853,11 +1001,25 @@ body {
 
     <div id="controls">
 
-        <button onclick="setEMF(1)">EMF 1</button>
-        <button onclick="setEMF(2)">EMF 2</button>
-        <button onclick="setEMF(3)">EMF 3</button>
-        <button onclick="setEMF(4)">EMF 4</button>
-        <button onclick="setEMF(5)">EMF 5</button>
+        <button onclick="setEMF(1)">
+            EMF 1
+        </button>
+
+        <button onclick="setEMF(2)">
+            EMF 2
+        </button>
+
+        <button onclick="setEMF(3)">
+            EMF 3
+        </button>
+
+        <button onclick="setEMF(4)">
+            EMF 4
+        </button>
+
+        <button onclick="setEMF(5)">
+            EMF 5
+        </button>
 
     </div>
 
@@ -869,9 +1031,13 @@ body {
             <div class="emf-head">
 
                 <div id="led1" class="emf-led"></div>
+
                 <div id="led2" class="emf-led"></div>
+
                 <div id="led3" class="emf-led"></div>
+
                 <div id="led4" class="emf-led"></div>
+
                 <div id="led5" class="emf-led"></div>
 
             </div>
@@ -914,12 +1080,9 @@ body {
         </div>
 
 
-        <!-- APPAREIL -->
-
         <div class="thermo-device">
 
             <div class="thermo-top"></div>
-
 
             <div class="thermo-sensor"></div>
 
@@ -952,7 +1115,6 @@ body {
 
             <div class="thermo-line"></div>
 
-
             <div class="thermo-brand">
                 PHASMO
             </div>
@@ -960,13 +1122,12 @@ body {
         </div>
 
 
-        <!-- PIÈCES -->
-
         <div id="room-section">
 
             <div id="room-label">
-                PIÈCE ACTUELLE
+                DEMANDER UNE PIÈCE
             </div>
+
 
             <div id="room-buttons">
 
@@ -1000,8 +1161,6 @@ body {
 
             </div>
 
-
-            <!-- ENVOI TEMPÉRATURE -->
 
             <div id="temperature-controls">
 
@@ -1041,8 +1200,9 @@ body {
         </div>
 
         <div id="evidence-help">
-            Clique une fois pour confirmer, une deuxième fois
-            pour éliminer et une troisième fois pour réinitialiser.
+            Clique une fois pour confirmer,
+            une deuxième fois pour éliminer
+            et une troisième fois pour réinitialiser.
         </div>
 
 
@@ -1092,11 +1252,41 @@ body {
      SONS EMF
 ========================================================= -->
 
-<audio id="sound1" src="sound1.mp3"></audio>
-<audio id="sound2" src="SonEMF/emf2.mp3"></audio>
-<audio id="sound3" src="SonEMF/emf3.mp3"></audio>
-<audio id="sound4" src="SonEMF/emf4.mp3"></audio>
-<audio id="sound5" src="SonEMF/emf5.mp3"></audio>
+<audio
+    id="sound1"
+    src="sound1.mp3"
+></audio>
+
+<audio
+    id="sound2"
+    src="SonEMF/emf2.mp3"
+></audio>
+
+<audio
+    id="sound3"
+    src="SonEMF/emf3.mp3"
+></audio>
+
+<audio
+    id="sound4"
+    src="SonEMF/emf4.mp3"
+></audio>
+
+<audio
+    id="sound5"
+    src="SonEMF/emf5.mp3"
+></audio>
+
+
+<!-- =========================================================
+     SON NOTIFICATION
+========================================================= -->
+
+<audio
+    id="room-notification-sound"
+    preload="auto"
+    src="notification.mp3"
+></audio>
 
 
 <!-- =========================================================
@@ -1104,13 +1294,14 @@ body {
 ========================================================= -->
 
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+
 <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 
 
 <script>
 
 /* =========================================================
-   FIREBASE CONFIG
+   FIREBASE
 ========================================================= */
 
 const firebaseConfig = {
@@ -1141,11 +1332,12 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
-const db = firebase.database();
+const db =
+    firebase.database();
 
 
 /* =========================================================
-   CHANGEMENT DE MODE
+   MODES
 ========================================================= */
 
 let isInEMFMode = true;
@@ -1155,14 +1347,17 @@ let currentSound = null;
 
 function hideAllModes() {
 
-    document.getElementById("emf-mode").style.display =
-        "none";
+    document.getElementById(
+        "emf-mode"
+    ).style.display = "none";
 
-    document.getElementById("thermo-mode").style.display =
-        "none";
+    document.getElementById(
+        "thermo-mode"
+    ).style.display = "none";
 
-    document.getElementById("evidence-mode").style.display =
-        "none";
+    document.getElementById(
+        "evidence-mode"
+    ).style.display = "none";
 
 }
 
@@ -1188,13 +1383,18 @@ function showEMF() {
 
     isInEMFMode = true;
 
-    document.getElementById("emf-mode").style.display =
-        "flex";
+    document.getElementById(
+        "emf-mode"
+    ).style.display = "flex";
 
     const level =
-        document.getElementById("emf-value").textContent;
+        document.getElementById(
+            "emf-value"
+        ).textContent;
 
-    applyEMF(parseInt(level) || 0);
+    applyEMF(
+        parseInt(level) || 0
+    );
 
 }
 
@@ -1207,8 +1407,9 @@ function showThermo() {
 
     stopEMFSound();
 
-    document.getElementById("thermo-mode").style.display =
-        "block";
+    document.getElementById(
+        "thermo-mode"
+    ).style.display = "block";
 
 }
 
@@ -1221,8 +1422,9 @@ function showEvidence() {
 
     stopEMFSound();
 
-    document.getElementById("evidence-mode").style.display =
-        "block";
+    document.getElementById(
+        "evidence-mode"
+    ).style.display = "block";
 
 }
 
@@ -1238,49 +1440,68 @@ function setEMF(level) {
 }
 
 
-db.ref("emfLevel").on("value", snapshot => {
+db.ref("emfLevel").on(
+    "value",
+    snapshot => {
 
-    const level =
-        snapshot.val() || 0;
+        const level =
+            snapshot.val() || 0;
 
-    applyEMF(level);
+        applyEMF(level);
 
-});
+    }
+);
 
 
 function applyEMF(level) {
 
-    level = parseInt(level) || 0;
+    level =
+        parseInt(level) || 0;
 
-    if (level < 0) {
-        level = 0;
-    }
-
-    if (level > 5) {
-        level = 5;
-    }
-
-
-    for (let i = 1; i <= 5; i++) {
-
-        document
-            .getElementById("led" + i)
-            .classList.remove("active");
-
-    }
+    level =
+        Math.max(
+            0,
+            Math.min(5, level)
+        );
 
 
-    for (let i = 1; i <= level; i++) {
+    for (
+        let i = 1;
+        i <= 5;
+        i++
+    ) {
 
         document
-            .getElementById("led" + i)
-            .classList.add("active");
+            .getElementById(
+                "led" + i
+            )
+            .classList.remove(
+                "active"
+            );
 
     }
 
 
-    document.getElementById("emf-value").textContent =
-        level;
+    for (
+        let i = 1;
+        i <= level;
+        i++
+    ) {
+
+        document
+            .getElementById(
+                "led" + i
+            )
+            .classList.add(
+                "active"
+            );
+
+    }
+
+
+    document.getElementById(
+        "emf-value"
+    ).textContent = level;
 
 
     stopEMFSound();
@@ -1294,11 +1515,15 @@ function applyEMF(level) {
     if (level > 0) {
 
         currentSound =
-            document.getElementById("sound" + level);
+            document.getElementById(
+                "sound" + level
+            );
 
         currentSound.loop = true;
 
-        currentSound.play().catch(() => {});
+        currentSound
+            .play()
+            .catch(() => {});
 
     }
 
@@ -1306,8 +1531,18 @@ function applyEMF(level) {
 
 
 /* =========================================================
-   THERMOMÈTRE
+   THERMOMÈTRE — DEMANDE DE PIÈCE
 ========================================================= */
+
+let firstRoomLoad = true;
+
+let lastNotificationRoom = null;
+
+
+/*
+   Quand on clique sur une pièce,
+   Firebase reçoit la nouvelle pièce.
+*/
 
 function setRoom(room) {
 
@@ -1316,108 +1551,271 @@ function setRoom(room) {
 }
 
 
-/* réception pièce */
+/*
+   Réception de la pièce depuis Firebase.
+*/
 
-db.ref("lastRoom").on("value", snapshot => {
+db.ref("lastRoom").on(
+    "value",
+    snapshot => {
 
-    const room =
-        snapshot.val();
-
-
-    const roomDisplay =
-        document.getElementById(
-            "thermo-room-display"
-        );
+        const room =
+            snapshot.val();
 
 
-    if (room) {
+        if (!room) {
+
+            return;
+
+        }
+
+
+        /*
+           Affichage sur le thermomètre
+        */
+
+        const roomDisplay =
+            document.getElementById(
+                "thermo-room-display"
+            );
+
 
         roomDisplay.textContent =
             room;
 
+
+        /*
+           Bouton actif
+        */
+
+        document
+            .querySelectorAll(
+                ".room-button"
+            )
+            .forEach(button => {
+
+                button.classList.remove(
+                    "active"
+                );
+
+
+                if (
+                    button.textContent.trim()
+                    === room
+                ) {
+
+                    button.classList.add(
+                        "active"
+                    );
+
+                }
+
+            });
+
+
+        /*
+           NE PAS envoyer de notification
+           lors du premier chargement.
+        */
+
+        if (firstRoomLoad) {
+
+            firstRoomLoad = false;
+
+            lastNotificationRoom =
+                room;
+
+            return;
+
+        }
+
+
+        /*
+           Si la pièce est réellement
+           différente, notification.
+        */
+
+        if (
+            room !== lastNotificationRoom
+        ) {
+
+            lastNotificationRoom =
+                room;
+
+            showRoomNotification(
+                room
+            );
+
+        }
+
     }
-
-    else {
-
-        roomDisplay.textContent =
-            "Aucune pièce sélectionnée";
-
-    }
+);
 
 
-    document
-        .querySelectorAll(".room-button")
-        .forEach(button => {
+/* =========================================================
+   NOTIFICATION
+========================================================= */
 
-            button.classList.remove("active");
-
-            if (button.textContent.trim() === room) {
-
-                button.classList.add("active");
-
-            }
-
-        });
-
-});
+let notificationTimeout = null;
 
 
-/* envoi température */
+function showRoomNotification(room) {
 
-function sendTemperature() {
-
-    const input =
-        document.getElementById("temp-input");
-
-    let temp =
-        parseFloat(input.value);
+    const notification =
+        document.getElementById(
+            "room-notification"
+        );
 
 
-    if (!Number.isFinite(temp)) {
-        return;
-    }
+    const roomText =
+        document.getElementById(
+            "notification-room"
+        );
+
+
+    roomText.textContent =
+        room.toUpperCase();
 
 
     /*
-       Limite de sécurité pour éviter
-       des valeurs absurdes.
+       Relance l'animation
     */
 
-    temp =
-        Math.max(-100, Math.min(100, temp));
+    notification.classList.remove(
+        "show"
+    );
 
 
-    db.ref("temperature").set(temp);
+    void notification.offsetWidth;
+
+
+    notification.classList.add(
+        "show"
+    );
+
+
+    /*
+       Son
+    */
+
+    const sound =
+        document.getElementById(
+            "room-notification-sound"
+        );
+
+
+    sound.currentTime = 0;
+
+
+    sound
+        .play()
+        .catch(() => {
+            /*
+               Certains navigateurs bloquent
+               le son automatique.
+            */
+        });
+
+
+    /*
+       Cache automatiquement
+       après 4 secondes.
+    */
+
+    clearTimeout(
+        notificationTimeout
+    );
+
+
+    notificationTimeout =
+        setTimeout(
+            () => {
+
+                notification.classList.remove(
+                    "show"
+                );
+
+            },
+            4000
+        );
 
 }
 
 
-/* réception température */
+/* =========================================================
+   TEMPÉRATURE
+========================================================= */
 
-db.ref("temperature").on("value", snapshot => {
+function sendTemperature() {
 
-    const temp =
-        snapshot.val();
+    const input =
+        document.getElementById(
+            "temp-input"
+        );
+
+
+    let temp =
+        parseFloat(
+            input.value
+        );
 
 
     if (
-        temp === null ||
-        temp === undefined ||
-        !Number.isFinite(Number(temp))
+        !Number.isFinite(temp)
     ) {
-
-        updateThermoDisplay(null);
 
         return;
 
     }
 
 
-    updateThermoDisplay(
-        Number(temp)
-    );
+    temp =
+        Math.max(
+            -100,
+            Math.min(
+                100,
+                temp
+            )
+        );
 
-});
+
+    db.ref("temperature")
+        .set(temp);
+
+}
+
+
+db.ref("temperature").on(
+    "value",
+    snapshot => {
+
+        const temp =
+            snapshot.val();
+
+
+        if (
+            temp === null ||
+            temp === undefined ||
+            !Number.isFinite(
+                Number(temp)
+            )
+        ) {
+
+            updateThermoDisplay(
+                null
+            );
+
+            return;
+
+        }
+
+
+        updateThermoDisplay(
+            Number(temp)
+        );
+
+    }
+);
 
 
 function updateThermoDisplay(temp) {
@@ -1428,9 +1826,17 @@ function updateThermoDisplay(temp) {
         );
 
 
-    display.classList.remove("cold");
-    display.classList.remove("freezing");
-    display.classList.remove("hot");
+    display.classList.remove(
+        "cold"
+    );
+
+    display.classList.remove(
+        "freezing"
+    );
+
+    display.classList.remove(
+        "hot"
+    );
 
 
     if (temp === null) {
@@ -1443,14 +1849,12 @@ function updateThermoDisplay(temp) {
     }
 
 
-    /*
-       Affichage avec une décimale
-       uniquement lorsque nécessaire.
-    */
-
     let formatted;
 
-    if (Number.isInteger(temp)) {
+
+    if (
+        Number.isInteger(temp)
+    ) {
 
         formatted =
             temp.toString();
@@ -1468,10 +1872,6 @@ function updateThermoDisplay(temp) {
     display.textContent =
         formatted + "°";
 
-
-    /*
-       Couleur selon température
-    */
 
     if (temp <= 0) {
 
@@ -1526,90 +1926,70 @@ const evidenceStates = {
 const ghosts = {
 
     "Démon": [
-
         "Ultraviolet",
         "Écriture fantomatique",
         "Températures glaciales"
-
     ],
 
     "Djinn": [
-
         "EMF 5",
         "Ultraviolet",
         "Températures glaciales"
-
     ],
 
     "Gallu": [
-
         "EMF 5",
         "Ultraviolet",
         "Températures glaciales"
-
     ],
 
     "Mimic": [
-
         "Ultraviolet",
         "Températures glaciales",
         "Spirit Box"
-
     ],
 
     "Moroi": [
-
         "Températures glaciales",
         "Écriture fantomatique",
         "Spirit Box"
-
     ],
 
     "Myling": [
-
         "EMF 5",
         "Ultraviolet",
         "Écriture fantomatique"
-
     ],
 
     "Poltergeist": [
-
         "Ultraviolet",
         "Écriture fantomatique",
         "Spirit Box"
-
     ],
 
     "Shade": [
-
         "EMF 5",
         "Écriture fantomatique",
         "Températures glaciales"
-
     ],
 
     "Esprit": [
-
         "EMF 5",
         "Écriture fantomatique",
         "Spirit Box"
-
     ],
 
     "Les Jumeaux": [
-
         "EMF 5",
         "Températures glaciales",
         "Spirit Box"
-
     ]
 
 };
 
 
 /* =========================================================
-   CRÉATION BOUTONS PREUVES
+   BOUTONS PREUVES
 ========================================================= */
 
 function createEvidenceButtons() {
@@ -1623,10 +2003,14 @@ function createEvidenceButtons() {
     container.innerHTML = "";
 
 
-    for (const evidence in evidenceStates) {
+    for (
+        const evidence in evidenceStates
+    ) {
 
         const button =
-            document.createElement("button");
+            document.createElement(
+                "button"
+            );
 
 
         button.className =
@@ -1640,12 +2024,16 @@ function createEvidenceButtons() {
         button.onclick =
             function() {
 
-                cycleEvidence(evidence);
+                cycleEvidence(
+                    evidence
+                );
 
             };
 
 
-        container.appendChild(button);
+        container.appendChild(
+            button
+        );
 
     }
 
@@ -1653,7 +2041,7 @@ function createEvidenceButtons() {
 
 
 /* =========================================================
-   CYCLE PREUVE
+   CYCLE PREUVES
 ========================================================= */
 
 function cycleEvidence(evidence) {
@@ -1664,24 +2052,29 @@ function cycleEvidence(evidence) {
 
     if (current === 0) {
 
-        evidenceStates[evidence] = 1;
+        evidenceStates[evidence] =
+            1;
 
     }
 
     else if (current === 1) {
 
-        evidenceStates[evidence] = 2;
+        evidenceStates[evidence] =
+            2;
 
     }
 
     else {
 
-        evidenceStates[evidence] = 0;
+        evidenceStates[evidence] =
+            0;
 
     }
 
 
-    db.ref("evidenceStates").set(
+    db.ref(
+        "evidenceStates"
+    ).set(
         evidenceStates
     );
 
@@ -1692,33 +2085,40 @@ function cycleEvidence(evidence) {
    SYNCHRO PREUVES
 ========================================================= */
 
-db.ref("evidenceStates").on("value", snapshot => {
+db.ref(
+    "evidenceStates"
+).on(
+    "value",
+    snapshot => {
 
-    const data =
-        snapshot.val();
+        const data =
+            snapshot.val();
 
 
-    if (data) {
+        if (data) {
 
-        for (const evidence in evidenceStates) {
-
-            if (
-                data[evidence] !== undefined
+            for (
+                const evidence in evidenceStates
             ) {
 
-                evidenceStates[evidence] =
-                    data[evidence];
+                if (
+                    data[evidence] !== undefined
+                ) {
+
+                    evidenceStates[evidence] =
+                        data[evidence];
+
+                }
 
             }
 
         }
 
+
+        updateEvidenceDisplay();
+
     }
-
-
-    updateEvidenceDisplay();
-
-});
+);
 
 
 /* =========================================================
@@ -1733,43 +2133,47 @@ function updateEvidenceDisplay() {
         );
 
 
-    buttons.forEach(button => {
+    buttons.forEach(
+        button => {
 
-        const evidence =
-            button.textContent;
-
-
-        button.classList.remove(
-            "confirmed"
-        );
-
-        button.classList.remove(
-            "impossible"
-        );
+            const evidence =
+                button.textContent;
 
 
-        if (
-            evidenceStates[evidence] === 1
-        ) {
-
-            button.classList.add(
+            button.classList.remove(
                 "confirmed"
             );
 
-        }
-
-
-        if (
-            evidenceStates[evidence] === 2
-        ) {
-
-            button.classList.add(
+            button.classList.remove(
                 "impossible"
             );
 
-        }
 
-    });
+            if (
+                evidenceStates[evidence]
+                === 1
+            ) {
+
+                button.classList.add(
+                    "confirmed"
+                );
+
+            }
+
+
+            if (
+                evidenceStates[evidence]
+                === 2
+            ) {
+
+                button.classList.add(
+                    "impossible"
+                );
+
+            }
+
+        }
+    );
 
 
     updateGhosts();
@@ -1792,7 +2196,9 @@ function updateGhosts() {
     container.innerHTML = "";
 
 
-    for (const ghostName in ghosts) {
+    for (
+        const ghostName in ghosts
+    ) {
 
         const ghostEvidence =
             ghosts[ghostName];
@@ -1809,36 +2215,26 @@ function updateGhosts() {
                 evidenceStates[evidence];
 
 
-            /* preuve confirmée */
+            if (
+                state === 1 &&
+                !ghostEvidence.includes(
+                    evidence
+                )
+            ) {
 
-            if (state === 1) {
-
-                if (
-                    !ghostEvidence.includes(
-                        evidence
-                    )
-                ) {
-
-                    eliminated = true;
-
-                }
+                eliminated = true;
 
             }
 
 
-            /* preuve impossible */
+            if (
+                state === 2 &&
+                ghostEvidence.includes(
+                    evidence
+                )
+            ) {
 
-            if (state === 2) {
-
-                if (
-                    ghostEvidence.includes(
-                        evidence
-                    )
-                ) {
-
-                    eliminated = true;
-
-                }
+                eliminated = true;
 
             }
 
@@ -1846,7 +2242,9 @@ function updateGhosts() {
 
 
         const ghost =
-            document.createElement("div");
+            document.createElement(
+                "div"
+            );
 
 
         ghost.className =
@@ -1859,7 +2257,9 @@ function updateGhosts() {
 
 
         const name =
-            document.createElement("div");
+            document.createElement(
+                "div"
+            );
 
         name.className =
             "ghost-name";
@@ -1869,17 +2269,23 @@ function updateGhosts() {
 
 
         const evidenceText =
-            document.createElement("div");
+            document.createElement(
+                "div"
+            );
 
         evidenceText.className =
             "ghost-evidence";
 
         evidenceText.textContent =
-            ghostEvidence.join(" • ");
+            ghostEvidence.join(
+                " • "
+            );
 
 
         const selectButton =
-            document.createElement("button");
+            document.createElement(
+                "button"
+            );
 
         selectButton.className =
             "select-ghost";
@@ -1898,7 +2304,9 @@ function updateGhosts() {
             };
 
 
-        ghost.appendChild(name);
+        ghost.appendChild(
+            name
+        );
 
         ghost.appendChild(
             evidenceText
@@ -1934,14 +2342,18 @@ function selectGhost(ghostName) {
         ghostName;
 
 
-    db.ref("selectedGhost").set(
+    db.ref(
+        "selectedGhost"
+    ).set(
         ghostName
     );
 
 }
 
 
-db.ref("selectedGhost").on(
+db.ref(
+    "selectedGhost"
+).on(
     "value",
     snapshot => {
 
@@ -1980,41 +2392,49 @@ function updateSelectedGhost() {
 
 
     document
-        .querySelectorAll(".ghost")
-        .forEach(element => {
+        .querySelectorAll(
+            ".ghost"
+        )
+        .forEach(
+            element => {
 
-            element.classList.remove(
-                "selected"
-            );
+                element.classList.remove(
+                    "selected"
+                );
 
-        });
+            }
+        );
 
 
     if (selectedGhost) {
 
         document
-            .querySelectorAll(".ghost")
-            .forEach(element => {
+            .querySelectorAll(
+                ".ghost"
+            )
+            .forEach(
+                element => {
 
-                const name =
-                    element.querySelector(
-                        ".ghost-name"
-                    );
+                    const name =
+                        element.querySelector(
+                            ".ghost-name"
+                        );
 
 
-                if (
-                    name &&
-                    name.textContent ===
-                    selectedGhost
-                ) {
+                    if (
+                        name &&
+                        name.textContent
+                        === selectedGhost
+                    ) {
 
-                    element.classList.add(
-                        "selected"
-                    );
+                        element.classList.add(
+                            "selected"
+                        );
+
+                    }
 
                 }
-
-            });
+            );
 
     }
 
@@ -2022,7 +2442,7 @@ function updateSelectedGhost() {
 
 
 /* =========================================================
-   RESET PREUVES
+   RESET
 ========================================================= */
 
 function resetEvidence() {
@@ -2034,17 +2454,22 @@ function resetEvidence() {
         const evidence in evidenceStates
     ) {
 
-        resetData[evidence] = 0;
+        resetData[evidence] =
+            0;
 
     }
 
 
-    db.ref("evidenceStates").set(
+    db.ref(
+        "evidenceStates"
+    ).set(
         resetData
     );
 
 
-    db.ref("selectedGhost").remove();
+    db.ref(
+        "selectedGhost"
+    ).remove();
 
 }
 
