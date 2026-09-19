@@ -1,5 +1,12 @@
 # Phasmo-IRL
 
+v2.5
+-Ajout de fantôme
+-Correction de bug
+
+V2.3
+- Ajoutement de l'onglet "preuve"
+
 V2
 - Vérification de la syncro du thermomètre + emf
 - Bouton pour changer d'emf sur téléphone indisponible
