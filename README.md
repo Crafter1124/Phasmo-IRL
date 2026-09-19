@@ -5,9 +5,8 @@ v2.8
 - Ajout de notification
 
 v2.5
--Ajout de fantôme
--Correction de bug
-
+- Ajout de fantôme
+- Correction de bug
 V2.3
 - Ajoutement de l'onglet "preuve"
 
