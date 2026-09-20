@@ -132,143 +132,32 @@ body {
 
 
 /* =========================================================
-   EMF
+   EMF — NOUVEAU DESIGN
 ========================================================= */
-
-#emf-mode {
-    position: absolute;
-    inset: 0;
-    display: flex;
-}
-
-#controls {
-    width: 220px;
-    padding: 20px;
-    background: #101219;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    box-shadow: 0 0 20px #000;
-}
-
-#controls button {
-    padding: 12px;
-    font-size: 18px;
-    background: #202536;
-    color: white;
-    border: 1px solid #30364b;
-    cursor: pointer;
-    border-radius: 8px;
-}
-
-#controls button:hover {
-    background: #2b3248;
-}
-
-#emf-zone {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.emf-body {
-    width: 240px;
-    height: 480px;
-    background: #191d27;
-    border-radius: 30px;
-    position: relative;
-    border: 3px solid #30364a;
-    box-shadow: 0 0 30px rgba(0,0,0,0.8);
-}
-
-.emf-head {
-    position: absolute;
-    top: 30px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 170px;
-    height: 75px;
-    background: #0e1118;
-    border-radius: 15px;
-    border: 3px solid #2b3144;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 15px;
-}
-
-.emf-led {
-    width: 24px;
-    height: 50px;
-    border-radius: 8px;
-    background: #333;
-    opacity: 0.15;
-    transition: 0.2s;
-}
-
-.emf-led.active {
-    opacity: 1;
-    box-shadow: 0 0 10px currentColor;
-}
-
-#led1 {
-    background: #00ff00;
-}
-
-#led2 {
-    background: #66ff00;
-}
-
-#led3 {
-    background: #ffff00;
-}
-
-#led4 {
-    background: #ff9900;
-}
-
-#led5 {
-    background: #ff0000;
-}
-
-.emf-screen {
-    position: absolute;
-    top: 140px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 170px;
-    height: 80px;
-    background: #10131d;
-    border-radius: 12px;
-    border: 2px solid #262c3f;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.emf-label {
-    font-size: 14px;
-    color: #9fa6c7;
-    margin-bottom: 5px;
-}
-
-.emf-value {
-    font-size: 32px;
-    letter-spacing: 2px;
-    color: #36f9a5;
-}
-
-.emf-bottom-text {
-    position: absolute;
-    bottom: 20px;
-    width: 100%;
-    text-align: center;
-    font-size: 12px;
-    color: #70789a;
-}
-
+#emf-mode{position:absolute;inset:0;display:flex;background:radial-gradient(circle at 60% 45%,#20283a 0%,#0a0d14 65%);overflow:hidden}
+#controls{width:245px;padding:28px 20px;background:linear-gradient(180deg,#111722,#090c12);border-right:1px solid #293246;display:flex;flex-direction:column;gap:12px;box-shadow:10px 0 35px rgba(0,0,0,.35);z-index:2}
+#controls::before{content:"EMF READER";color:#77829a;font-size:12px;letter-spacing:3px;text-align:center;margin-bottom:8px}
+#controls button{position:relative;padding:14px 12px;font-size:17px;font-weight:700;letter-spacing:1px;background:linear-gradient(180deg,#20293a,#151b27);color:#e9edf7;border:1px solid #354158;cursor:pointer;border-radius:10px;transition:.18s;box-shadow:inset 0 1px rgba(255,255,255,.04),0 5px 12px rgba(0,0,0,.2)}
+#controls button:hover{transform:translateX(3px);background:#293449;border-color:#53617b}
+#controls button:active{transform:scale(.98)}
+#emf-zone{flex:1;display:flex;justify-content:center;align-items:center;position:relative}
+#emf-zone::before{content:"";position:absolute;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(54,249,165,.08),transparent 65%);pointer-events:none}
+.emf-body{width:270px;height:510px;background:linear-gradient(145deg,#2b3240 0%,#171d29 45%,#0c1017 100%);border-radius:32px;position:relative;border:3px solid #3b465b;box-shadow:inset 0 0 25px rgba(255,255,255,.025),inset 0 -20px 35px rgba(0,0,0,.35),0 25px 70px rgba(0,0,0,.65);overflow:hidden}
+.emf-body::after{content:"";position:absolute;inset:10px;border:1px solid rgba(255,255,255,.035);border-radius:25px;pointer-events:none}
+.emf-head{position:absolute;top:25px;left:50%;transform:translateX(-50%);width:200px;height:92px;background:linear-gradient(180deg,#080b11,#121823);border-radius:18px;border:2px solid #323c50;display:flex;justify-content:space-between;align-items:center;padding:10px 14px;box-shadow:inset 0 0 18px #000,0 8px 15px rgba(0,0,0,.25)}
+.emf-head::before{content:"EMF";position:absolute;left:12px;top:-20px;font-size:9px;letter-spacing:2px;color:#59657b}
+.emf-led{width:27px;height:58px;border-radius:8px;background:#242a34;opacity:.18;transition:.18s;box-shadow:inset 0 0 7px #000;position:relative}
+.emf-led.active{opacity:1;box-shadow:0 0 13px currentColor,inset 0 0 8px rgba(255,255,255,.3)}
+#led1{background:#20e060;color:#20e060}
+#led2{background:#8bea36;color:#8bea36}
+#led3{background:#ffe72e;color:#ffe72e}
+#led4{background:#ff9b32;color:#ff9b32}
+#led5{background:#ff3d3d;color:#ff3d3d}
+.emf-screen{position:absolute;top:155px;left:50%;transform:translateX(-50%);width:205px;height:115px;background:linear-gradient(180deg,#060a0e,#0b1216);border-radius:14px;border:2px solid #303a4c;display:flex;flex-direction:column;justify-content:center;align-items:center;box-shadow:inset 0 0 22px #000,0 8px 18px rgba(0,0,0,.3)}
+.emf-label{font-size:11px;color:#68758c;letter-spacing:2px;margin-bottom:5px}
+.emf-value{font-family:"Courier New",monospace;font-size:58px;font-weight:bold;line-height:1;color:#36f9a5;letter-spacing:4px;text-shadow:0 0 14px rgba(54,249,165,.45);transition:.2s}
+.emf-bottom-text{position:absolute;bottom:25px;width:100%;text-align:center;font-size:10px;letter-spacing:3px;color:#59657a}
+@media(max-width:650px){#emf-mode{flex-direction:column;overflow-y:auto}#controls{width:auto;padding:12px;display:grid;grid-template-columns:repeat(5,1fr);gap:7px;border-right:0;border-bottom:1px solid #293246}#controls::before{display:none}#controls button{padding:10px 4px;font-size:12px}.emf-body{transform:scale(.82);margin:-30px 0}.emf-zone{min-height:560px}}
 
 /* =========================================================
    THERMOMÈTRE
