@@ -1695,26 +1695,30 @@ function showRoomNotification(room) {
 
 
     /*
-       Son
+       Son UNIQUEMENT en mode Thermomètre
     */
 
-    const sound =
-        document.getElementById(
-            "room-notification-sound"
-        );
+    const thermoMode =
+        document.getElementById("thermo-mode");
 
+    if (thermoMode && thermoMode.style.display === "block") {
 
-    sound.currentTime = 0;
+        const sound =
+            document.getElementById(
+                "room-notification-sound"
+            );
 
+        sound.currentTime = 0;
 
-    sound
-        .play()
-        .catch(() => {
-            /*
-               Certains navigateurs bloquent
-               le son automatique.
-            */
-        });
+        sound
+            .play()
+            .catch(() => {
+                /*
+                   Certains navigateurs bloquent
+                   le son automatique.
+                */
+            });
+    }
 
 
     /*
