@@ -1,5 +1,11 @@
 # Phasmo-IRL
 
+V3.5
+- Refonte du emf
+
+v3
+- Correction bug thermomètre
+
 v2.8
 - Refonte compléte du thermomètre
 - Ajout de notification
