@@ -1,5 +1,8 @@
 # Phasmo-IRL
 
+V3.8
+- Modification des sons du emf
+
 V3.5
 - Refonte du emf
 
