@@ -1660,27 +1660,85 @@ let notificationTimeout = null;
 
 
 function showRoomNotification(room) {
-    // 🔔 Son uniquement si on est dans le mode Thermomètre
-    if (currentMode !== "thermometer") return;
 
-    const notification = document.getElementById("room-notification");
-    const roomText = document.getElementById("notification-room");
+    const notification =
+        document.getElementById(
+            "room-notification"
+        );
 
-    roomText.textContent = room.toUpperCase();
 
-    notification.classList.remove("show");
+    const roomText =
+        document.getElementById(
+            "notification-room"
+        );
+
+
+    roomText.textContent =
+        room.toUpperCase();
+
+
+    /*
+       Relance l'animation
+    */
+
+    notification.classList.remove(
+        "show"
+    );
+
+
     void notification.offsetWidth;
-    notification.classList.add("show");
 
-    const sound = document.getElementById("room-notification-sound");
+
+    notification.classList.add(
+        "show"
+    );
+
+
+    /*
+       Son
+    */
+
+    const sound =
+        document.getElementById(
+            "room-notification-sound"
+        );
+
+
     sound.currentTime = 0;
-    sound.play().catch(() => {});
 
-    clearTimeout(notificationTimeout);
-    notificationTimeout = setTimeout(() => {
-        notification.classList.remove("show");
-    }, 4000);
-}
+
+    sound
+        .play()
+        .catch(() => {
+            /*
+               Certains navigateurs bloquent
+               le son automatique.
+            */
+        });
+
+
+    /*
+       Cache automatiquement
+       après 4 secondes.
+    */
+
+    clearTimeout(
+        notificationTimeout
+    );
+
+
+    notificationTimeout =
+        setTimeout(
+            () => {
+
+                notification.classList.remove(
+                    "show"
+                );
+
+            },
+            4000
+        );
+
 }
 
 
