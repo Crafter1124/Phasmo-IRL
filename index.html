@@ -1344,86 +1344,6 @@ let isInEMFMode = true;
 
 let currentSound = null;
 
-// =========================================================
-// SONS EMF DE TEST — Web Audio
-// Chaque niveau a une tonalité, une vitesse et un rythme différents.
-// =========================================================
-let emfAudioContext = null;
-let emfSoundTimer = null;
-let emfGain = null;
-
-function getEMFAudioContext() {
-    if (!emfAudioContext) {
-        emfAudioContext = new (window.AudioContext || window.webkitAudioContext)();
-    }
-    if (emfAudioContext.state === "suspended") {
-        emfAudioContext.resume().catch(() => {});
-    }
-    return emfAudioContext;
-}
-
-function playEMFPulse(level) {
-    const ctx = getEMFAudioContext();
-    const now = ctx.currentTime;
-
-    const profiles = {
-        1: { freq: 330, duration: 0.10, gap: 850, type: "sine",   volume: 0.055 },
-        2: { freq: 430, duration: 0.11, gap: 520, type: "square", volume: 0.060 },
-        3: { freq: 560, duration: 0.13, gap: 310, type: "triangle", volume: 0.070 },
-        4: { freq: 720, duration: 0.15, gap: 175, type: "square", volume: 0.080 },
-        5: { freq: 900, duration: 0.18, gap: 105, type: "sawtooth", volume: 0.090 }
-    };
-
-    const profile = profiles[level];
-    if (!profile) return;
-
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-
-    osc.type = profile.type;
-    osc.frequency.setValueAtTime(profile.freq, now);
-
-    // Les niveaux élevés montent légèrement en fréquence pendant le bip.
-    if (level >= 3) {
-        osc.frequency.linearRampToValueAtTime(profile.freq + level * 28, now + profile.duration);
-    }
-
-    gain.gain.setValueAtTime(0.0001, now);
-    gain.gain.exponentialRampToValueAtTime(profile.volume, now + 0.012);
-    gain.gain.exponentialRampToValueAtTime(0.0001, now + profile.duration);
-
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-    osc.start(now);
-    osc.stop(now + profile.duration + 0.02);
-}
-
-function startEMFSynth(level) {
-    stopEMFSound();
-    if (!isInEMFMode || level <= 0) return;
-
-    const profiles = {
-        1: 850,
-        2: 520,
-        3: 310,
-        4: 175,
-        5: 105
-    };
-
-    const gap = profiles[level];
-    if (!gap) return;
-
-    playEMFPulse(level);
-    emfSoundTimer = setInterval(() => {
-        if (!isInEMFMode) {
-            stopEMFSound();
-            return;
-        }
-        playEMFPulse(level);
-    }, gap);
-}
-
-
 
 function hideAllModes() {
 
@@ -1443,18 +1363,17 @@ function hideAllModes() {
 
 
 function stopEMFSound() {
-    if (emfSoundTimer) {
-        clearInterval(emfSoundTimer);
-        emfSoundTimer = null;
+
+    if (currentSound) {
+
+        currentSound.pause();
+
+        currentSound.currentTime = 0;
+
+        currentSound = null;
+
     }
 
-    // On garde les anciens fichiers audio dans le HTML pour pouvoir
-    // facilement les remettre plus tard si besoin.
-    if (currentSound) {
-        currentSound.pause();
-        currentSound.currentTime = 0;
-        currentSound = null;
-    }
 }
 
 
@@ -1594,9 +1513,18 @@ function applyEMF(level) {
 
 
     if (level > 0) {
-        // Nouveau son de test : la fréquence et la vitesse augmentent
-        // automatiquement avec le niveau EMF.
-        startEMFSynth(level);
+
+        currentSound =
+            document.getElementById(
+                "sound" + level
+            );
+
+        currentSound.loop = true;
+
+        currentSound
+            .play()
+            .catch(() => {});
+
     }
 
 }
@@ -1767,30 +1695,26 @@ function showRoomNotification(room) {
 
 
     /*
-       Son UNIQUEMENT en mode Thermomètre
+       Son
     */
 
-    const thermoMode =
-        document.getElementById("thermo-mode");
+    const sound =
+        document.getElementById(
+            "room-notification-sound"
+        );
 
-    if (thermoMode && thermoMode.style.display === "block") {
 
-        const sound =
-            document.getElementById(
-                "room-notification-sound"
-            );
+    sound.currentTime = 0;
 
-        sound.currentTime = 0;
 
-        sound
-            .play()
-            .catch(() => {
-                /*
-                   Certains navigateurs bloquent
-                   le son automatique.
-                */
-            });
-    }
+    sound
+        .play()
+        .catch(() => {
+            /*
+               Certains navigateurs bloquent
+               le son automatique.
+            */
+        });
 
 
     /*
