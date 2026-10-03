@@ -1564,7 +1564,8 @@ let roomCooldownUntil = 0;
 
 function setRoom(room) {
 
-    startRoomCooldown();
+    applyRoomCooldown(Date.now() + 40000);
+    db.ref("roomCooldownStartedAt").set(firebase.database.ServerValue.TIMESTAMP);
     db.ref("lastRoom").set(room);
 
 }
@@ -1587,11 +1588,7 @@ db.ref("lastRoom").on(
             return;
 
         }
-
-        startRoomCooldown();
-
-
-        /*
+/*
            Affichage sur le thermomètre
         */
 
@@ -1677,42 +1674,55 @@ db.ref("lastRoom").on(
    NOTIFICATION
 ========================================================= */
 
-function startRoomCooldown() {
-    if (Date.now() < roomCooldownUntil) return;
+function applyRoomCooldown(until) {
+    roomCooldownUntil = until;
 
     const buttons = document.querySelectorAll(".room-button");
     const label = document.getElementById("room-label");
-    roomCooldownUntil = Date.now() + 40000;
-
-    buttons.forEach(button => {
-        button.disabled = true;
-        button.style.opacity = "0.5";
-        button.style.cursor = "not-allowed";
-    });
 
     const updateCountdown = () => {
         const secondsLeft = Math.max(0, Math.ceil((roomCooldownUntil - Date.now()) / 1000));
-        label.textContent = secondsLeft > 0
+        const isCoolingDown = secondsLeft > 0;
+
+        buttons.forEach(button => {
+            button.disabled = isCoolingDown;
+            button.style.opacity = isCoolingDown ? "0.5" : "";
+            button.style.cursor = isCoolingDown ? "not-allowed" : "";
+        });
+
+        label.textContent = isCoolingDown
             ? `PROCHAINE DEMANDE DE PIÈCE DANS ${secondsLeft} S`
             : "DEMANDER UNE PIÈCE";
-        if (secondsLeft === 0) {
+
+        if (!isCoolingDown) {
             clearInterval(roomCooldownInterval);
             roomCooldownInterval = null;
             clearTimeout(roomCooldownTimeout);
             roomCooldownTimeout = null;
-            buttons.forEach(button => {
-                button.disabled = false;
-                button.style.opacity = "";
-                button.style.cursor = "";
-            });
         }
     };
 
     clearInterval(roomCooldownInterval);
-    roomCooldownInterval = setInterval(updateCountdown, 250);
-    roomCooldownTimeout = setTimeout(updateCountdown, 40000);
+    clearTimeout(roomCooldownTimeout);
     updateCountdown();
+
+    if (roomCooldownUntil > Date.now()) {
+        roomCooldownInterval = setInterval(updateCountdown, 250);
+        roomCooldownTimeout = setTimeout(updateCountdown, roomCooldownUntil - Date.now());
+    }
 }
+
+
+/*
+   L'heure de début vient de Firebase (horloge serveur),
+   pour que tous les appareils partagent la même échéance.
+*/
+db.ref("roomCooldownStartedAt").on("value", snapshot => {
+    const startedAt = Number(snapshot.val());
+    if (Number.isFinite(startedAt) && startedAt > 0) {
+        applyRoomCooldown(startedAt + 40000);
+    }
+});
 
 let notificationTimeout = null;
 
@@ -2544,6 +2554,9 @@ updateThermoDisplay(null);
 
 </body>
 </html>
+
+
+
 
 
 
