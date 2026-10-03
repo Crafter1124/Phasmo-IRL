@@ -947,19 +947,18 @@ body {
 #book-mode{position:absolute;inset:0;display:none;overflow-y:auto;padding:28px 20px 100px;background:radial-gradient(ellipse at center,#171a22 0%,#08090c 72%)}
 #book-container{width:min(100%,980px);margin:0 auto;text-align:center}
 #book-title{margin:0 0 8px;color:#d8dced;font-size:28px;letter-spacing:3px}
-#book-subtitle{margin:0 0 24px;color:#9299ad}
-#spirit-book{display:grid;grid-template-columns:1fr 1fr;padding:18px;border:2px solid #4a3829;border-radius:18px;background:linear-gradient(135deg,#3e2b1e,#17120f 55%,#352417);box-shadow:0 24px 55px #000,inset 0 0 25px #0a0705}
-.book-page{min-height:330px;padding:30px 28px;color:#30271d;text-align:left;background:repeating-linear-gradient(0deg,transparent 0 31px,rgba(82,65,43,.12) 32px),linear-gradient(135deg,#e2d6b9,#c8b994);box-shadow:inset 0 0 28px rgba(67,48,24,.18)}
-.book-page:first-child{border-radius:8px 0 0 8px;border-right:1px solid rgba(55,39,22,.45)}
-.book-page:last-child{border-radius:0 8px 8px 0;border-left:1px solid rgba(255,255,255,.18)}
-.book-page h2{margin:0 0 18px;color:#59432b;font:bold 15px Arial,sans-serif;letter-spacing:2px;text-transform:uppercase}
- .book-note{margin-top:20px;color:#76664c;font-size:14px;line-height:1.8}
-.book-stamp{margin-top:55px;padding:18px 10px;border:2px solid rgba(111,57,44,.38);color:rgba(111,57,44,.55);font:bold 13px Arial,sans-serif;letter-spacing:3px;text-align:center;transform:rotate(-7deg)}
-.notes-page{display:flex;flex-direction:column}
-#book-note-input{flex:1;width:100%;min-height:260px;resize:vertical;border:0;outline:0;padding:0 6px;color:#32271d;background:repeating-linear-gradient(to bottom,transparent 0 31px,rgba(89,73,48,.23) 31px 32px);font:italic 17px/32px "Segoe Print","Comic Sans MS",cursive}
-#book-note-input::placeholder{color:rgba(72,59,41,.48)}
-#book-status{margin:18px 0 0;color:#aeb5c8;font-size:14px}
-@media(max-width:650px){#spirit-book{grid-template-columns:1fr}.book-page{min-height:245px;padding:24px 22px}.book-page:first-child{border-radius:8px 8px 0 0;border-right:0;border-bottom:1px solid rgba(55,39,22,.45)}.book-page:last-child{border-radius:0 0 8px 8px;border-left:0;border-top:1px solid rgba(255,255,255,.18)}#book-note-input{min-height:230px}}
+#book-subtitle{margin:0 0 20px;color:#9299ad}
+#spirit-book{padding:14px;border:3px solid #4a3829;border-radius:18px;background:linear-gradient(135deg,#3e2b1e,#17120f 55%,#352417);box-shadow:0 24px 55px #000,inset 0 0 25px #0a0705}
+.book-tools{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:16px;padding:10px 8px 14px;color:#e6ddc9;font-size:14px}
+.book-tools label{display:flex;align-items:center;gap:8px}
+#draw-color{width:38px;height:32px;padding:2px;border:1px solid #6d5a43;border-radius:6px;background:#21180f;cursor:pointer}
+#draw-size{width:130px;accent-color:#d5c4a0;cursor:pointer}
+#clear-drawing{padding:9px 13px;border:1px solid #6d5a43;border-radius:7px;background:#261c14;color:#f1e6d0;cursor:pointer}
+#clear-drawing:hover{background:#3b2b1e}
+.book-paper{position:relative;overflow:hidden;border-radius:8px;background:repeating-linear-gradient(to bottom,#e2d6b9 0 31px,#c9b995 32px,#e2d6b9 33px);box-shadow:inset 0 0 35px rgba(67,48,24,.22),0 2px 5px #0a0705}
+#book-canvas{display:block;width:100%;height:min(64vh,620px);min-height:360px;touch-action:none;cursor:crosshair}
+#book-status{margin:15px 0 0;color:#aeb5c8;font-size:14px}
+@media(max-width:650px){#book-mode{padding:20px 12px 90px}#book-title{font-size:23px}.book-tools{gap:10px}#book-canvas{height:58vh;min-height:320px}}
 
 </style>
 </head>
@@ -1292,19 +1291,18 @@ body {
 <div id="book-mode">
   <div id="book-container">
     <h1 id="book-title">LIVRE DE SPIRITISME</h1>
-    <p id="book-subtitle">Un livre posé dans la pièce pour laisser le fantôme écrire.</p>
+    <p id="book-subtitle">Dessine directement sur les pages.</p>
     <div id="spirit-book">
-      <section class="book-page">
-        <h2>Carnet de terrain</h2>
-        <p class="book-note">Écris librement tes observations, tes idées ou les événements de la partie.</p>
-        <div class="book-stamp">PHASMO IRL<br>JOURNAL D’ENQUÊTE</div>
-      </section>
-      <section class="book-page notes-page">
-        <h2>Notes</h2>
-        <textarea id="book-note-input" spellcheck="false" placeholder="Écris tes notes ici…" aria-label="Notes du livre"></textarea>
-      </section>
+      <div class="book-tools">
+        <label>Encre <input id="draw-color" type="color" value="#252018" aria-label="Couleur du trait"></label>
+        <label>Épaisseur <input id="draw-size" type="range" min="2" max="30" value="5" aria-label="Épaisseur du trait"></label>
+        <button id="clear-drawing" type="button">Effacer le dessin</button>
+      </div>
+      <div class="book-paper">
+        <canvas id="book-canvas" aria-label="Zone de dessin du livre"></canvas>
+      </div>
     </div>
-    <div id="book-status">Notes partagées avec les autres pages</div>
+    <div id="book-status">Dessins partagés avec les autres pages</div>
   </div>
 </div>
 
@@ -1496,6 +1494,7 @@ function showBook() {
     isInEMFMode = false;
     stopEMFSound();
     document.getElementById("book-mode").style.display = "block";
+    resizeBookCanvas();
 }
 
 
@@ -2323,22 +2322,105 @@ function updateEvidenceDisplay() {
 }
 
 
-const bookNotesRef = db.ref("spiritBookNotes");
-const bookNoteInput = document.getElementById("book-note-input");
-const bookStatus = document.getElementById("book-status");
+const bookDrawingRef = db.ref("spiritBookDrawing");
+const bookCanvas = document.getElementById("book-canvas");
+const bookContext = bookCanvas.getContext("2d");
+const drawColor = document.getElementById("draw-color");
+const drawSize = document.getElementById("draw-size");
+let bookStrokes = [];
+let activeStroke = null;
+let isDrawing = false;
 
-bookNoteInput.addEventListener("input", () => {
-    bookNotesRef.set(bookNoteInput.value);
-    bookStatus.textContent = "Synchronisation des notes…";
+function resizeBookCanvas() {
+    const rect = bookCanvas.getBoundingClientRect();
+    const ratio = window.devicePixelRatio || 1;
+    bookCanvas.width = Math.round(rect.width * ratio);
+    bookCanvas.height = Math.round(rect.height * ratio);
+    bookContext.setTransform(ratio, 0, 0, ratio, 0, 0);
+    redrawBook();
+}
+
+function redrawBook() {
+    const rect = bookCanvas.getBoundingClientRect();
+    bookContext.clearRect(0, 0, rect.width, rect.height);
+
+    bookStrokes.forEach(stroke => {
+        if (!stroke.points || stroke.points.length === 0) return;
+        bookContext.beginPath();
+        bookContext.strokeStyle = stroke.color || "#252018";
+        bookContext.lineWidth = (stroke.size || 0.006) * rect.width;
+        bookContext.lineCap = "round";
+        bookContext.lineJoin = "round";
+        stroke.points.forEach((point, index) => {
+            const x = point.x * rect.width;
+            const y = point.y * rect.height;
+            if (index === 0) bookContext.moveTo(x, y);
+            else bookContext.lineTo(x, y);
+        });
+        if (stroke.points.length === 1) {
+            const point = stroke.points[0];
+            bookContext.moveTo(point.x * rect.width, point.y * rect.height);
+            bookContext.lineTo(point.x * rect.width + 0.1, point.y * rect.height + 0.1);
+        }
+        bookContext.stroke();
+    });
+}
+
+bookCanvas.addEventListener("pointerdown", event => {
+    event.preventDefault();
+    bookCanvas.setPointerCapture(event.pointerId);
+    const rect = bookCanvas.getBoundingClientRect();
+    activeStroke = {
+        color: drawColor.value,
+        size: Number(drawSize.value) / rect.width,
+        points: [{x: (event.clientX - rect.left) / rect.width, y: (event.clientY - rect.top) / rect.height}]
+    };
+    isDrawing = true;
 });
 
-bookNotesRef.on("value", snapshot => {
-    const sharedNotes = snapshot.val() || "";
-    if (bookNoteInput.value !== sharedNotes) {
-        bookNoteInput.value = sharedNotes;
-    }
-    bookStatus.textContent = "Notes partagées avec les autres pages";
+bookCanvas.addEventListener("pointermove", event => {
+    if (!isDrawing || !activeStroke) return;
+    const rect = bookCanvas.getBoundingClientRect();
+    activeStroke.points.push({
+        x: Math.max(0, Math.min(1, (event.clientX - rect.left) / rect.width)),
+        y: Math.max(0, Math.min(1, (event.clientY - rect.top) / rect.height))
+    });
+    const previous = activeStroke.points[activeStroke.points.length - 2];
+    const current = activeStroke.points[activeStroke.points.length - 1];
+    bookContext.beginPath();
+    bookContext.strokeStyle = activeStroke.color;
+    bookContext.lineWidth = Number(drawSize.value);
+    bookContext.lineCap = "round";
+    bookContext.lineJoin = "round";
+    bookContext.moveTo(previous.x * rect.width, previous.y * rect.height);
+    bookContext.lineTo(current.x * rect.width, current.y * rect.height);
+    bookContext.stroke();
 });
+
+function finishBookStroke() {
+    if (!isDrawing || !activeStroke) return;
+    isDrawing = false;
+    bookStrokes.push(activeStroke);
+    bookDrawingRef.push(activeStroke);
+    activeStroke = null;
+}
+
+bookCanvas.addEventListener("pointerup", finishBookStroke);
+bookCanvas.addEventListener("pointercancel", finishBookStroke);
+bookCanvas.addEventListener("lostpointercapture", finishBookStroke);
+
+document.getElementById("clear-drawing").addEventListener("click", () => {
+    bookDrawingRef.remove();
+});
+
+bookDrawingRef.on("value", snapshot => {
+    const value = snapshot.val();
+    bookStrokes = value ? Object.values(value) : [];
+    redrawBook();
+});
+
+window.addEventListener("resize", resizeBookCanvas);
+resizeBookCanvas();
 
 
 /* =========================================================
@@ -2646,3 +2728,4 @@ updateThermoDisplay(null);
 
 </body>
 </html>
+
