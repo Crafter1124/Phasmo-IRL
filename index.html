@@ -1565,8 +1565,13 @@ let firebaseServerTimeOffset = 0;
 
 function setRoom(room) {
 
-    applyRoomCooldown(Date.now() + 40000);
-    db.ref("roomCooldownStartedAt").set(firebase.database.ServerValue.TIMESTAMP);
+    const cooldownEndTime = Date.now() + firebaseServerTimeOffset + 40000;
+
+    // Déclenche tout de suite le compte à rebours sur cette page.
+    applyRoomCooldown(cooldownEndTime);
+
+    // Toutes les pages lisent la même échéance Firebase.
+    db.ref("roomCooldownEndTime").set(cooldownEndTime);
     db.ref("lastRoom").set(room);
 
 }
@@ -1715,10 +1720,6 @@ function applyRoomCooldown(until) {
 }
 
 
-/*
-   L'heure de début vient de Firebase (horloge serveur),
-   pour que tous les appareils partagent la même échéance.
-*/
 db.ref(".info/serverTimeOffset").on("value", snapshot => {
     firebaseServerTimeOffset = Number(snapshot.val()) || 0;
     if (roomCooldownUntil > 0) {
@@ -1726,10 +1727,16 @@ db.ref(".info/serverTimeOffset").on("value", snapshot => {
     }
 });
 
-db.ref("roomCooldownStartedAt").on("value", snapshot => {
-    const startedAt = Number(snapshot.val());
-    if (Number.isFinite(startedAt) && startedAt > 0) {
-        applyRoomCooldown(startedAt + 40000);
+/*
+   Toutes les pages écoutent la même échéance enregistrée dans Firebase.
+   Une page qui s'ouvre pendant le délai reprend directement le temps restant.
+*/
+db.ref("roomCooldownEndTime").on("value", snapshot => {
+    const endTime = Number(snapshot.val());
+    if (Number.isFinite(endTime) && endTime > 0) {
+        applyRoomCooldown(endTime);
+    } else {
+        applyRoomCooldown(0);
     }
 });
 
@@ -2563,6 +2570,9 @@ updateThermoDisplay(null);
 
 </body>
 </html>
+
+
+
 
 
 
