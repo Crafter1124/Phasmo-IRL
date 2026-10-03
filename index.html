@@ -1555,6 +1555,7 @@ let lastNotificationRoom = null;
 let roomCooldownTimeout = null;
 let roomCooldownInterval = null;
 let roomCooldownUntil = 0;
+let firebaseServerTimeOffset = 0;
 
 
 /*
@@ -1681,7 +1682,8 @@ function applyRoomCooldown(until) {
     const label = document.getElementById("room-label");
 
     const updateCountdown = () => {
-        const secondsLeft = Math.max(0, Math.ceil((roomCooldownUntil - Date.now()) / 1000));
+        const serverNow = Date.now() + firebaseServerTimeOffset;
+        const secondsLeft = Math.max(0, Math.ceil((roomCooldownUntil - serverNow) / 1000));
         const isCoolingDown = secondsLeft > 0;
 
         buttons.forEach(button => {
@@ -1706,9 +1708,9 @@ function applyRoomCooldown(until) {
     clearTimeout(roomCooldownTimeout);
     updateCountdown();
 
-    if (roomCooldownUntil > Date.now()) {
+    if (roomCooldownUntil > Date.now() + firebaseServerTimeOffset) {
         roomCooldownInterval = setInterval(updateCountdown, 250);
-        roomCooldownTimeout = setTimeout(updateCountdown, roomCooldownUntil - Date.now());
+        roomCooldownTimeout = setTimeout(updateCountdown, roomCooldownUntil - (Date.now() + firebaseServerTimeOffset));
     }
 }
 
@@ -1717,6 +1719,13 @@ function applyRoomCooldown(until) {
    L'heure de début vient de Firebase (horloge serveur),
    pour que tous les appareils partagent la même échéance.
 */
+db.ref(".info/serverTimeOffset").on("value", snapshot => {
+    firebaseServerTimeOffset = Number(snapshot.val()) || 0;
+    if (roomCooldownUntil > 0) {
+        applyRoomCooldown(roomCooldownUntil);
+    }
+});
+
 db.ref("roomCooldownStartedAt").on("value", snapshot => {
     const startedAt = Number(snapshot.val());
     if (Number.isFinite(startedAt) && startedAt > 0) {
@@ -2554,6 +2563,7 @@ updateThermoDisplay(null);
 
 </body>
 </html>
+
 
 
 
