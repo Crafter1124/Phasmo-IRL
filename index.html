@@ -1552,6 +1552,10 @@ let firstRoomLoad = true;
 
 let lastNotificationRoom = null;
 
+let roomCooldownTimeout = null;
+let roomCooldownInterval = null;
+let roomCooldownUntil = 0;
+
 
 /*
    Quand on clique sur une pièce,
@@ -1560,6 +1564,7 @@ let lastNotificationRoom = null;
 
 function setRoom(room) {
 
+    startRoomCooldown();
     db.ref("lastRoom").set(room);
 
 }
@@ -1582,6 +1587,8 @@ db.ref("lastRoom").on(
             return;
 
         }
+
+        startRoomCooldown();
 
 
         /*
@@ -1669,6 +1676,43 @@ db.ref("lastRoom").on(
 /* =========================================================
    NOTIFICATION
 ========================================================= */
+
+function startRoomCooldown() {
+    if (Date.now() < roomCooldownUntil) return;
+
+    const buttons = document.querySelectorAll(".room-button");
+    const label = document.getElementById("room-label");
+    roomCooldownUntil = Date.now() + 40000;
+
+    buttons.forEach(button => {
+        button.disabled = true;
+        button.style.opacity = "0.5";
+        button.style.cursor = "not-allowed";
+    });
+
+    const updateCountdown = () => {
+        const secondsLeft = Math.max(0, Math.ceil((roomCooldownUntil - Date.now()) / 1000));
+        label.textContent = secondsLeft > 0
+            ? `PROCHAINE DEMANDE DE PIÈCE DANS ${secondsLeft} S`
+            : "DEMANDER UNE PIÈCE";
+        if (secondsLeft === 0) {
+            clearInterval(roomCooldownInterval);
+            roomCooldownInterval = null;
+            clearTimeout(roomCooldownTimeout);
+            roomCooldownTimeout = null;
+            buttons.forEach(button => {
+                button.disabled = false;
+                button.style.opacity = "";
+                button.style.cursor = "";
+            });
+        }
+    };
+
+    clearInterval(roomCooldownInterval);
+    roomCooldownInterval = setInterval(updateCountdown, 250);
+    roomCooldownTimeout = setTimeout(updateCountdown, 40000);
+    updateCountdown();
+}
 
 let notificationTimeout = null;
 
@@ -2500,3 +2544,6 @@ updateThermoDisplay(null);
 
 </body>
 </html>
+
+
+
